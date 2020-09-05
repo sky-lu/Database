@@ -1,0 +1,457 @@
+SQL> CREATE OR REPLACE PROCEDURE tri_calculate
+  2  (tri_num_in IN NUMBER) AS
+  3  v_num_in NUMBER;
+  4  v_result NUMBER;
+  5  BEGIN
+  6        v_num_in := tri_num_in;
+  7        v_result := v_num_in * 3;
+  8  DBMS_OUTPUT.PUT_LINE('The triple of' || tri_num_in || 'is' || v_result);
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec tri_calculate (2)
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on
+SQL> CREATE OR REPLACE PROCEDURE tri_calculate
+  2  (tri_num_in IN NUMBER) AS
+  3  v_num_in NUMBER;
+  4  v_result NUMBER;
+  5  BEGIN
+  6        v_num_in := tri_num_in;
+  7        v_result := v_num_in * 3;
+  8  DBMS_OUTPUT.PUT_LINE('The triple of' || tri_num_in || 'is' || v_result);
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec tri_calculate (2)
+The triple of2is6                                                               
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE tri_calculate
+  2  (tri_num_in IN NUMBER) AS
+  3  v_num_in NUMBER;
+  4  v_result NUMBER;
+  5  BEGIN
+  6        v_num_in := tri_num_in;
+  7        v_result := v_num_in * 3;
+  8  DBMS_OUTPUT.PUT_LINE('The triple of ' || tri_num_in || ' is ' || v_result);
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec tri_calculate (2)
+The triple of 2 is 6                                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> exec tri_calculate (3)
+The triple of 3 is 9                                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE c_convert_f
+  2  (c_temp_in IN NUMBER) AS
+  3  c_temp NUMBER;
+  4  f_temp NUMBER;
+  5  BEGIN
+  6        c_temp := c_temp_in;
+  7        f_temp := (9/5) * c_temp +32;
+  8  DBMS_OUTPUT.PUT_LINE(c_temp_in || ' degree in C is equivalent to ' || f_temp || ' in F');
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec c_convert_f (0)
+0 degree in C is equivalent to 32 in F                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> exec c_convert_f (5)
+5 degree in C is equivalent to 41 in F                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> exec c_convert_f (20)
+20 degree in C is equivalent to 68 in F                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE f_convert_c
+  2  (f_temp_in IN NUMBER) AS
+  3  f_temp NUMBER;
+  4  c_temp NUMBER;
+  5  BEGIN
+  6        f_temp := f_temp_in;
+  7        c_temp := (5/9) * (f_temp - 32);
+  8  DBMS_OUTPUT.PUT_LINE(f_temp_in || ' degree in F is equivalent to ' || c_temp || ' in C ');
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec f_convert_c (32)
+32 degree in F is equivalent to 0 in C                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> exec f_convert_c (41)
+41 degree in F is equivalent to 5 in C                                          
+
+PL/SQL procedure successfully completed.
+
+SQL> exec f_convert_c (68)
+68 degree in F is equivalent to 20 in C                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE tax_calculate
+  2  (price_in IN NUMBER) AS
+  3  price NUMBER;
+  4  GST NUMBER;
+  5  QST NUMBER;
+  6  total_tax NUMBER;
+  7  grand_total NUMBER;
+  8  BEGIN
+  9        price := price_in;
+ 10        GST := price * 5%;
+ 11        QST := price * 9.98%;
+ 12        total_tax := GST + QST;
+ 13        grand_total := price + total_tax;
+ 14  DBMS_OUTPUT.PUT_LINE('For the price of $' || price_in);
+ 15  DBMS_OUTPUT.PUT_LINE('You will have to pay $ || GST || ' GST');
+ 16  DBMS_OUTPUT.PUT_LINE('$' || QST || ' QST for a total of $' || total_tax);
+ 17  DBMS_OUTPUT.PUT_LINE('The GRAND TOTAL is $' || grand_total);
+ 18  END;
+ 19  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE TAX_CALCULATE:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+10/23    PLS-00103: Encountered the symbol "%" when expecting one of the        
+         following:                                                             
+         * & = - + ; < / > at in is mod remainder not rem                       
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec between || member submultiset                              
+         The symbol "%" was ignored.                                            
+                                                                                
+11/26    PLS-00103: Encountered the symbol "%" when expecting one of the        
+         following:                                                             
+         * & = - + ; < / > at in is mod remainder not rem                       
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         like4 likec between || member submultiset                              
+         The symbol "%" was ignored.                                            
+                                                                                
+15/58    PLS-00103: Encountered the symbol "GST" when expecting one of the      
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE tax_calculate
+  2  (price_in IN NUMBER) AS
+  3  price NUMBER;
+  4  GST NUMBER;
+  5  QST NUMBER;
+  6  total_tax NUMBER;
+  7  grand_total NUMBER;
+  8  BEGIN
+  9        price := price_in;
+ 10        GST := price * 0.05;
+ 11        QST := price * 0.0998;
+ 12        total_tax := GST + QST;
+ 13        grand_total := price + total_tax;
+ 14  DBMS_OUTPUT.PUT_LINE('For the price of $' || price_in);
+ 15  DBMS_OUTPUT.PUT_LINE('You will have to pay $ || GST || ' GST');
+ 16  DBMS_OUTPUT.PUT_LINE('$' || QST || ' QST for a total of $' || total_tax);
+ 17  DBMS_OUTPUT.PUT_LINE('The GRAND TOTAL is $' || grand_total);
+ 18  END;
+ 19  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE TAX_CALCULATE:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+15/58    PLS-00103: Encountered the symbol "GST" when expecting one of the      
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE tax_calculate
+  2  (price_in IN NUMBER) AS
+  3  price NUMBER;
+  4  GST NUMBER;
+  5  QST NUMBER;
+  6  total_tax NUMBER;
+  7  grand_total NUMBER;
+  8  BEGIN
+  9        price := price_in;
+ 10        GST := price * 0.05;
+ 11        QST := price * 0.0998;
+ 12        total_tax := GST + QST;
+ 13        grand_total := price + total_tax;
+ 14  DBMS_OUTPUT.PUT_LINE('For the price of $' || price_in);
+ 15  DBMS_OUTPUT.PUT_LINE('You will have to pay $ || GST || ' GST ');
+ 16  DBMS_OUTPUT.PUT_LINE('$' || QST || ' QST for a total of $' || total_tax);
+ 17  DBMS_OUTPUT.PUT_LINE('The GRAND TOTAL is $' || grand_total);
+ 18  END;
+ 19  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE TAX_CALCULATE:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+15/58    PLS-00103: Encountered the symbol "GST" when expecting one of the      
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE tax_calculate
+  2  (price_in IN NUMBER) AS
+  3  price NUMBER;
+  4  gst NUMBER;
+  5  qst NUMBER;
+  6  total_tax NUMBER;
+  7  grand_total NUMBER;
+  8  BEGIN
+  9        price := price_in;
+ 10        gst := price * 0.05;
+ 11        qst := price * 0.0998;
+ 12        total_tax := gst + qst;
+ 13        grand_total := price + total_tax;
+ 14  DBMS_OUTPUT.PUT_LINE('For the price of $' || price_in);
+ 15  DBMS_OUTPUT.PUT_LINE('You will have to pay $ || gst || ' GST ');
+ 16  DBMS_OUTPUT.PUT_LINE('$' || qst || ' QST for a total of $' || total_tax);
+ 17  DBMS_OUTPUT.PUT_LINE('The GRAND TOTAL is $' || grand_total);
+ 18  END;
+ 19  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE TAX_CALCULATE:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+15/58    PLS-00103: Encountered the symbol "GST" when expecting one of the      
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE tax_calculate
+  2  (price_in IN NUMBER) AS
+  3  price NUMBER;
+  4  GST NUMBER;
+  5  QST NUMBER;
+  6  total_tax NUMBER;
+  7  grand_total NUMBER;
+  8  BEGIN
+  9        price := price_in;
+ 10        GST := price * 0.05;
+ 11        QST := price * 0.0998;
+ 12        total_tax := GST + QST;
+ 13        grand_total := price + total_tax;
+ 14  DBMS_OUTPUT.PUT_LINE('For the price of $' || price_in);
+ 15  DBMS_OUTPUT.PUT_LINE('You will have to pay $' || GST || ' GST ');
+ 16  DBMS_OUTPUT.PUT_LINE('$' || QST || ' QST for a total of $' || total_tax);
+ 17  DBMS_OUTPUT.PUT_LINE('The GRAND TOTAL is $' || grand_total);
+ 18  END;
+ 19  /
+
+Procedure created.
+
+SQL> exec tax_calculate (100)
+For the price of $100                                                           
+You will have to pay $5 GST                                                     
+$9.98 QST for a total of $14.98                                                 
+The GRAND TOTAL is $114.98                                                      
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE rectangular_calculate
+  2  (width_in IN NUMBER, height_in IN NUMBER) AS
+  3  width NUMBER;
+  4  height NUMBER;
+  5  area NUMBER;
+  6  perimeter NUMBER;
+  7  BEGIN
+  8        width := width_in;
+  9        height := height_in;
+ 10        area := width * height;
+ 11        perimeter := (width + height) * 2;
+ 12  DBMS_OUTPUT.PUT_LINE('The area of a ' || width_in || ' by ' || height_in || ' is ' || area || ' It's parimeter is ' || perimeter);
+ 13  END;
+ 14  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show errors
+Errors for PROCEDURE RECTANGULAR_CALCULATE:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+12/100   PLS-00103: Encountered the symbol "S" when expecting one of the        
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || member submultiset                
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE rectangular_calculate
+  2  (width_in IN NUMBER, height_in IN NUMBER) AS
+  3  width NUMBER;
+  4  height NUMBER;
+  5  area NUMBER;
+  6  perimeter NUMBER;
+  7  BEGIN
+  8        width := width_in;
+  9        height := height_in;
+ 10        area := width * height;
+ 11        perimeter := (width + height) * 2;
+ 12  DBMS_OUTPUT.PUT_LINE('The area of a ' || width_in || ' by ' || height_in || ' is ' || area || ' It''s parimeter is ' || perimeter);
+ 13  END;
+ 14  /
+
+Procedure created.
+
+SQL> exec rectangular_calculate (2,3)
+The area of a 2 by 3 is 6 It's parimeter is 10                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE rectangular_calculate
+  2  (width_in IN NUMBER, height_in IN NUMBER) AS
+  3  width NUMBER;
+  4  height NUMBER;
+  5  area NUMBER;
+  6  perimeter NUMBER;
+  7  BEGIN
+  8        width := width_in;
+  9        height := height_in;
+ 10        area := width * height;
+ 11        perimeter := (width + height) * 2;
+ 12  DBMS_OUTPUT.PUT_LINE('The area of a ' || width_in || ' by ' || height_in || ' rectangle is ' || area || ' It''s parimeter is ' || perimeter);
+ 13  END;
+ 14  /
+
+Procedure created.
+
+SQL> exec rectangular_calculate (2,3)
+The area of a 2 by 3 rectangle is 6 It's parimeter is 10                        
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE FUNCTION c_convert_f
+  2  (c_temp_in IN NUMBER) RETURN NUMBER AS
+  3  c_temp NUMBER;
+  4  f_temp NUMBER;
+  5  BEGIN
+  6        c_temp := c_temp_in;
+  7        f_temp := (9/5) * c_temp +32;
+  8        RETURN f_temp;
+  9  END;
+ 10  /
+CREATE OR REPLACE FUNCTION c_convert_f
+*
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE OR REPLACE FUNCTION c_to_f
+  2  (c_temp_in IN NUMBER) RETURN NUMBER AS
+  3  c_temp NUMBER;
+  4  f_temp NUMBER;
+  5  BEGIN
+  6        c_temp := c_temp_in;
+  7        f_temp := (9/5) * c_temp +32;
+  8        RETURN f_temp;
+  9  END;
+ 10  /
+
+Function created.
+
+SQL> SELECT c_to_f(0) FROM dual;
+
+ C_TO_F(0)                                                                      
+----------                                                                      
+        32                                                                      
+
+SQL> SELECT c_to_f(5) FROM dual;
+
+ C_TO_F(5)                                                                      
+----------                                                                      
+        41                                                                      
+
+SQL> SELECT c_to_f(20) FROM dual;
+
+C_TO_F(20)                                                                      
+----------                                                                      
+        68                                                                      
+
+SQL> CREATE OR REPLACE FUNCTION f_to_c
+  2  (f_temp_in IN NUMBER) RETURN NUMBER AS
+  3  f_temp NUMBER;
+  4  c_temp NUMBER;
+  5  BEGIN
+  6        f_temp := f_temp_in;
+  7        c_temp := (5/9) * (f_temp - 32);
+  8        RETURN c_temp;
+  9  END;
+ 10  /
+
+Function created.
+
+SQL> SELECT f_to_c FROM(32) dual;
+SELECT f_to_c FROM(32) dual
+                   *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> SELECT f_to_c(32) FROM dual;
+
+F_TO_C(32)                                                                      
+----------                                                                      
+         0                                                                      
+
+SQL> SELECT f_to_c(41) FROM dual;
+
+F_TO_C(41)                                                                      
+----------                                                                      
+         5                                                                      
+
+SQL> SELECT f_to_c(68) FROM dual;
+
+F_TO_C(68)                                                                      
+----------                                                                      
+        20                                                                      
+
+SQL> SPOOL OFF
