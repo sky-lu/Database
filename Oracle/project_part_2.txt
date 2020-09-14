@@ -1,0 +1,223 @@
+SQL> CREATE OR REPLACE FUNCTION multiply (p1 NUMBER, p2 NUMBER) RETURN NUMBER AS
+  2     v_result NUMBER;
+  3     BEGIN
+  4       v_result := p1 * p2;
+  5       RETURN v_result;
+  6     END;
+  7    /
+
+Function created.
+
+SQL> SELECT multiply(2,3) FROM dual;
+
+MULTIPLY(2,3)                                                                   
+-------------                                                                   
+            6                                                                   
+
+SQL> CREATE OR REPLACE PROCEDURE p_question2 (x NUMBER, y NUMBER) AS
+  2     v_result NUMBER;
+  3   BEGIN
+  4     v_result := multiply (x, y);
+  5     DBMS_OUTPUT.PUT_LINE (' For a rectangle of size ' || x || ' by ' || y || ' the area is '|| v_result );
+  6  END;
+  7  /
+
+Procedure created.
+
+SQL> EXEC p_question2 (2,3);
+For a rectangle of size 2 by 3 the area is 6                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> EXEC p_question2 (6,8);
+For a rectangle of size 6 by 8 the area is 48                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p_question3 (x NUMBER, y NUMBER) AS
+  2     v_result NUMBER;
+  3   BEGIN
+  4     v_result := multiply (x, y);
+  5     IF x = y THEN
+  6        DBMS_OUTPUT.PUT_LINE (' For a square of size ' || x || ' by ' || y || ' the area is '|| v_result );
+  7     ELSE
+  8        DBMS_OUTPUT.PUT_LINE (' For a rectangle of size ' || x || ' by ' || y || ' the area is '|| v_result );
+  9     END IF;
+ 10  END;
+ 11  /
+
+Procedure created.
+
+SQL> EXEC p_question3 (3,3);
+For a square of size 3 by 3 the area is 9                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> EXEC p_question3 (2,3);
+For a rectangle of size 2 by 3 the area is 6                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p_question4 ( x NUMBER, letter VARCHAR2) AS
+  2  v_result NUMBER;
+  3  new_currency VARCHAR2(50);
+  4  BEGIN
+  5    IF letter = 'E' THEN
+  6       v_result := x * 1.5;
+  7       new_currency := 'EURO';
+  8    ELSIF letter = 'Y' THEN
+  9       v_result := x * 100;
+ 10       new_currency := 'YEN';
+ 11    ELSIF letter = 'V' THEN
+ 12       v_result := x * 10000;
+ 13       new_currency := 'Viet Nam DONG';
+ 14    ELSIF letter = 'Z' THEN
+ 15       v_result := x * 1000000;
+ 16       new_currency := 'Endora ZIP';
+ 17    END IF;
+ 18  DBMS_OUTPUT.PUT_LINE ( ' For ' || x || ' dollars Canadian, you will have ' || v_result || new_currency );
+ 19  END ;
+ 20  /
+
+Procedure created.
+
+SQL> exec p_question4(2,'Y')
+For 2 dollars Canadian, you will have 200YEN                                    
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE FUNCTION YES_EVEN ( p NUMBER) RETURN BOOLEAN AS
+  2  v NUMBER := MOD(p, 2);
+  3  v_result BOOLEAN;
+  4  BEGIN
+  5     IF v = 0 THEN
+  6        v_result := TRUE;
+  7     ELSE
+  8        v_result := FALSE;
+  9     END IF;
+ 10    RETURN v_result;
+ 11  END;
+ 12  /
+
+Function created.
+
+SQL> CREATE OR REPLACE PROCEDURE p_question6 (p NUMBER) AS
+  2  BEGIN
+  3    IF YES_EVEN (P) THEN
+  4       DBMS_OUTPUT.PUT_LINE('Number ' || p || ' is EVEN ');
+  5    ELSE
+  6       DBMS_OUTPUT.PUT_LINE('Number ' || p || ' is ODD ');
+  7    END IF;
+  8  END;
+  9  /
+
+Procedure created.
+
+SQL> exec p_question6(6)
+Number 6 is EVEN                                                                
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p_question6(5)
+Number 5 is ODD                                                                 
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p_bonus (x NUMBER, letter1 VARCHAR2, letter2 VARCHAR2) AS
+  2  v_result NUMBER;
+  3  currency1 VARCHAR2(50);
+  4  currency2 VARCHAR2(50);
+  5  BEGIN
+  6     IF letter1 = 'C' THEN
+  7         currency1 := 'dollars Canadian';
+  8         IF letter2 = 'E' THEN
+  9            currency2 := 'EURO';
+ 10            v_result := x * 1.5;
+ 11         ELSIF letter2 = 'Y' THEN
+ 12            currency2 := 'YEN';
+ 13            v_result := x * 100;
+ 14         ELSIF letter2 = 'V' THEN
+ 15            currency2 := 'Viet Nam DONG';
+ 16            v_result := x * 10000;
+ 17          ELSIF letter2 = 'Z' THEN
+ 18            currency2 := 'Endora ZIP';
+ 19            v_result := x * 1000000;
+ 20          END IF;
+ 21      ELSIF letter1 = 'E' THEN
+ 22          currency1 := 'EURO';
+ 23          IF letter2 = 'C' THEN
+ 24            currency2 := 'dollars Canadian';
+ 25            v_result := x / 1.5;
+ 26          ELSIF letter2 = 'Y' THEN
+ 27            currency2 := 'YEN';
+ 28            v_result := x * 100 / 1.5;
+ 29          ELSIF letter2 = 'V' THEN
+ 30            currency2 := 'Viet Nam DONG';
+ 31            v_result := x * 10000 / 1.5;
+ 32          ELSIF letter2 = 'Z' THEN
+ 33            currency2 := 'Endora ZIP';
+ 34            v_result := x * 1000000 / 1.5;
+ 35          END IF;
+ 36      ELSIF letter1 = 'Y' THEN
+ 37          currency1 := 'YEN';
+ 38          IF letter2 = 'C' THEN
+ 39            currency2 := 'dollars Canadian';
+ 40            v_result := x * 0.01;
+ 41          ELSIF letter2 = 'E' THEN
+ 42            currency2 := 'EURO';
+ 43            v_result := x * 0.01 *1.5;
+ 44          ELSIF letter2 = 'V' THEN
+ 45            currency2 := 'Viet Nam DONG';
+ 46            v_result := x * 100;
+ 47          ELSIF letter2 = 'Z' THEN
+ 48            currency2 := 'Endora ZIP';
+ 49            v_result := x * 10000;
+ 50          END IF;
+ 51      ELSIF letter1 = 'V' THEN
+ 52          currency1 := 'Viet Nam DONG';
+ 53          IF letter2 = 'C' THEN
+ 54            currency2 := 'dollars Canadian';
+ 55            v_result := x * 0.0001;
+ 56          ELSIF letter2 = 'Y' THEN
+ 57            currency2 := 'YEN';
+ 58            v_result := x * 0.01;
+ 59          ELSIF letter2 = 'E' THEN
+ 60            currency2 := 'EURO';
+ 61            v_result := x * 0.0001 * 1.5;
+ 62          ELSIF letter2 = 'Z' THEN
+ 63            currency2 := 'Endora ZIP';
+ 64            v_result := x * 100;
+ 65          END IF;
+ 66     ELSIF letter1 = 'Z' THEN
+ 67          currency1 := 'Endora ZIP';
+ 68          IF letter2 = 'C' THEN
+ 69            currency2 := 'dollars Canadian';
+ 70            v_result := x * 0.000001;
+ 71          ELSIF letter2 = 'Y' THEN
+ 72            currency2 := 'YEN';
+ 73            v_result := x * 0.0001;
+ 74          ELSIF letter2 = 'E' THEN
+ 75            currency2 := 'EURO';
+ 76            v_result := x * 0.000001 * 1.5;
+ 77          ELSIF letter2 = 'V' THEN
+ 78            currency2 := 'Viet Nam DONG';
+ 79            v_result := x * 0.01;
+ 80          END IF;
+ 81     END IF;
+ 82     DBMS_OUTPUT.PUT_LINE( ' For ' || x ||  currency1 || ' , you will have ' || v_result ||  currency2);
+ 83  END;
+ 84  /
+
+Procedure created.
+
+SQL> exec p_bonus (2,'Y','V')
+For 2YEN , you will have 200Viet Nam DONG                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p_bonus (20000,'V','C')
+For 20000Viet Nam DONG , you will have 2dollars Canadian                        
+
+PL/SQL procedure successfully completed.
+
+SQL> SPOOL OFF
