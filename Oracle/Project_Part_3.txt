@@ -1,0 +1,1846 @@
+SQL> start D:\Lasalle\study\2020Fall\datascript\scott_emp_dept.sql
+Connected.
+
+User dropped.
+
+
+User created.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Connected.
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+SQL> CREATE OR REPLACE PROCEDURE p3q1(p_empno NUMBER) AS
+  2      v_empno NUMBER := p_empno;
+  3      v_dname VARCHAR2(100);
+  4      v_deptno NUMBER;
+  5      v_ename VARCHAR2(100);
+  6      v_year_salary NUMBER;
+  7      v_month_salary NUMBER;
+  8      v_commission NUMBER;
+  9  BEGIN
+ 10       SELECT ename, sal, comm, deptno
+ 11       INTO v_ename, v_month_salary, v_commission, v_deptno
+ 12       From emp
+ 13       WHERE empno = v_empno;
+ 14       v_year_salary := 12 * v_month_salary + NVL( v_commission, 0);
+ 15       SELECT dname
+ 16       INTO v_dname
+ 17       FROM dept
+ 18       WHERE deptno = v_deptno;
+ 19    DBMS_OUTPUT.PUT_LINE('Employee number ' || v_empno || ' is ' ||
+ 20       v_ename || ' , he works in the department : ' || v_dname || ' and his annual salary is $' || v_year_salary);
+ 21    EXCEPTION
+ 22       WHEN NO_DATA_FOUND THEN
+ 23       DBMS_OUTPUT.PUT_LINE('Employee number ' || v_empno || ' does not exist MY FRIEND, try again! ');
+ 24  END;
+ 25  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p3q1(7900);
+Employee number 7900 is JAMES , he works in the department : SALES and his      
+annual salary is $11400                                                         
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p3q1(7999);
+Employee number 7999 does not exist MY FRIEND, try again!                       
+
+PL/SQL procedure successfully completed.
+
+SQL> start D:\Lasalle\study\2020Fall\datascript\clearwater.sql
+Connected.
+
+User dropped.
+
+
+User created.
+
+SP2-0734: unknown command beginning "DEFAULT TA..." - rest of line ignored.
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Connected.
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+SQL> CREATE OR REPLACE PROCEDURE p3q2 (p_inv_id NUMBER) AS
+  2        v_item_id NUMBER;
+  3        v_item_desc VARCHAR2(30);
+  4        v_inv_price NUMBER;
+  5        v_color VARCHAR2(20);
+  6        v_inv_qoh NUMBER;
+  7        value NUMBER;
+  8  BEGIN
+  9       SELECT item_id, inv_price, color, inv_qoh
+ 10       INTO v_item_id, v_inv_price, v_color, v_inv_qoh
+ 11       FROM inventory
+ 12       WHERE inv_id = p_inv_id;
+ 13       value := v_inv_price * v_inv_qoh;
+ 14       SELECT item_desc
+ 15       INTO v_item_desc
+ 16       FROM item
+ 17       WHERE item_id = v_item_id;
+ 18     DBMS_OUTPUT.PUT_LINE ( v_item_desc || ' Its price is $' || v_inv_price || ', its color is '
+ 19                                              ||  v_color || ', its quantity on hand is ' || v_inv_qoh || ' and its value is $' || value );
+ 20     EXCEPTION
+ 21       WHEN NO_DATA_FOUND THEN
+ 22       DBMS_OUTPUT.PUT_LINE('Inventory number ' || p_inv_id || ' does not exist MY FRIEND, try again! ');
+ 23  END;
+ 24  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p3q2(2);
+3-Season Tent Its price is $259.99, its color is Light Grey, its quantity on    
+hand is 12 and its value is $3119.88                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> start CREATE OR REPLACE PROCEDURE p3q2 (p_inv_id NUMBER) AS
+SP2-0310: unable to open file "CREATE.sql"
+SQL>       v_item_id NUMBER;
+SP2-0734: unknown command beginning "v_item_id ..." - rest of line ignored.
+SQL>       v_item_desc VARCHAR2(30);
+SP2-0734: unknown command beginning "v_item_des..." - rest of line ignored.
+SQL>       v_inv_price NUMBER;
+SP2-0734: unknown command beginning "v_inv_pric..." - rest of line ignored.
+SQL>       v_color VARCHAR2(20);
+SP2-0734: unknown command beginning "v_color VA..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+SQL>       v_inv_qoh NUMBER;
+SP2-0734: unknown command beginning "v_inv_qoh ..." - rest of line ignored.
+SQL>       value NUMBER;
+SP2-0734: unknown command beginning "value NUMB..." - rest of line ignored.
+SQL> BEGIN
+  2       SELECT item_id, inv_price, color, inv_qoh
+  3       INTO v_item_id, v_inv_price, v_color, v_inv_qoh
+  4       FROM inventory
+  5       WHERE inv_id = p_inv_id;
+  6       value := v_inv_price * v_inv_qoh;
+  7       SELECT item_desc
+  8       INTO v_item_desc
+  9       FROM item
+ 10       WHERE item_id = v_item_id;
+ 11     DBMS_OUTPUT.PUT_LINE ( v_item_desc || ' Its price is $' || v_inv_price || ', its color is '
+ 12                                              ||  v_color || ', its quantity on hand is ' || v_inv_qoh || ' and its value is $' || value );
+ 13     EXCEPTION
+ 14       WHEN NO_DATA_FOUND THEN
+ 15       DBMS_OUTPUT.PUT_LINE('Inventory number ' || p_inv_id || ' does not exist MY FRIEND, try again! ');
+ 16  END;
+ 17  /
+     WHERE inv_id = p_inv_id;
+                    *
+ERROR at line 5:
+ORA-06550: line 5, column 21: 
+PL/SQL: ORA-00904: "P_INV_ID": invalid identifier 
+ORA-06550: line 2, column 6: 
+PL/SQL: SQL Statement ignored 
+ORA-06550: line 6, column 6: 
+PLS-00321: expression 'VALUE' is inappropriate as the left hand side of an 
+assignment statement 
+ORA-06550: line 6, column 6: 
+PL/SQL: Statement ignored 
+ORA-06550: line 10, column 22: 
+PL/SQL: ORA-00904: "V_ITEM_ID": invalid identifier 
+ORA-06550: line 7, column 6: 
+PL/SQL: SQL Statement ignored 
+ORA-06550: line 11, column 27: 
+PLS-00201: identifier 'V_ITEM_DESC' must be declared 
+ORA-06550: line 11, column 4: 
+PL/SQL: Statement ignored 
+ORA-06550: line 15, column 50: 
+PLS-00201: identifier 'P_INV_ID' must be declared 
+ORA-06550: line 15, column 6: 
+PL/SQL: Statement ignored 
+
+
+SQL> start D:\Lasalle\study\2020Fall\datascript\northwoods.sql
+Connected.
+CREATE USER c##nora03 IDENTIFIED BY nora03
+            *
+ERROR at line 1:
+ORA-01920: user name 'C##NORA03' conflicts with another user or role name 
+
+
+SP2-0734: unknown command beginning "DEFAULT TA..." - rest of line ignored.
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Connected.
+CREATE TABLE LOCATION
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE faculty
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE student
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE TERM
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE COURSE
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE COURSE_SECTION
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+CREATE TABLE ENROLLMENT
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO location VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.LOCATION_LOC_ID_PK) violated 
+
+
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.FACULTY_F_ID_PK) violated 
+
+
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.FACULTY_F_ID_PK) violated 
+
+
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.FACULTY_F_ID_PK) violated 
+
+
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.FACULTY_F_ID_PK) violated 
+
+
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.FACULTY_F_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO student VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.STUDENT_S_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO term VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.TERM_TERM_ID_PK) violated 
+
+
+INSERT INTO course VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_COURSE_ID_PK) violated 
+
+
+INSERT INTO course VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_COURSE_ID_PK) violated 
+
+
+INSERT INTO course VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_COURSE_ID_PK) violated 
+
+
+INSERT INTO course VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_COURSE_ID_PK) violated 
+
+
+INSERT INTO course VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_COURSE_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO course_section VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.COURSE_SECTION_CSEC_ID_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+INSERT INTO enrollment VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (C##NORA03.ENROLLMENT_PK) violated 
+
+
+
+Commit complete.
+
+SQL> start D:\Lasalle\study\2020Fall\datascript\northwoods.sql
+Connected.
+
+User dropped.
+
+
+User created.
+
+SP2-0734: unknown command beginning "DEFAULT TA..." - rest of line ignored.
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Connected.
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+SQL> CREATE OR REPLACE FUNCTION find_age (p_dob DATE) RETURN NUMBER AS
+  2       v_age NUMBER;
+  3  BEGIN
+  4       SELECT TO_NUMBER(TO_CHAR(sysdate,'YYYY')-TO_CHAR(p_dob,'YYYY'))
+  5       INTO v_age
+  6       FROM dual;
+  7       RETURN v_age;
+  8  END;
+  9  /
+
+Function created.
+
+SQL> SELECT find_age('18-OCT-90') FROM dual;
+
+FIND_AGE('18-OCT-90')                                                           
+---------------------                                                           
+                   30                                                           
+
+SQL> CREATE OR REPLACE PROCEDURE p3q3 (p_s_id NUMBER) AS
+  2       v_last VARCHAR2(30);
+  3       v_first VARCHAR2(30);
+  4       v_dob DATE;
+  5       s_age NUMBER;
+  6    BEGIN
+  7       SELECT s_last, s_first, s_dob
+  8       INTO v_last, v_first, v_dob
+  9       FROM student
+ 10       WHERE s_id = p_s_id;
+ 11       s_age := find_age(v_dob);
+ 12       DBMS_OUTPUT.PUT_LINE( ' Student nunmber ' || p_s_id || ' Name is ' || v_first  ||  v_last || ' Birthdate is ' || v_dob || ' Age is ' || s_age);
+ 13     EXCEPTION
+ 14       WHEN NO_DATA_FOUND THEN
+ 15       DBMS_OUTPUT.PUT_LINE('Student number ' || p_s_id || ' does not exist MY FRIEND, try again! ');
+ 16  END;
+ 17  /
+
+Procedure created.
+
+SQL> 
+SQL> exec p3q3(3)
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on
+SQL> exec p3q3(3)
+Student nunmber 3 Name is DanielBlack Birthdate is 10-OCT-82 Age is 38          
+
+PL/SQL procedure successfully completed.
+
+SQL> start D:\Lasalle\study\2020Fall\datascript\software.sql
+Connected.
+
+User created.
+
+SP2-0734: unknown command beginning "DEFAULT TA..." - rest of line ignored.
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+Connected.
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+Table altered.
+
+
+Table created.
+
+
+Table created.
+
+
+Table created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+SQL> CREATE OR REPLACE PROCEDURE p3q4 (p_c_id NUMBER, p_skill_id NUMBER, p_certification VARCHAR2) AS
+  2  v_c_last VARCHAR2(20);
+  3  v_c_first VARCHAR2(20);
+  4  v_skill_description VARCHAR2(20);
+  5  v_certification VARCHAR2(8)
+  6  BEGIN
+  7      SELECT c_last, c_first
+  8      INTO v_c_last, v_c_first
+  9      FROM consultant
+ 10      WHERE c_id = p_c_id;
+ 11    EXCEPTION
+ 12      WHEN NO_DATA_FOUND THEN
+ 13       DBMS_OUTPUT.PUT_LINE('Consultant number ' || p_c_id || ' does not exist MY FRIEND, try again! ');
+ 14      SELECT skill_description
+ 15      INTO v_skill_description
+ 16      FROM skill
+ 17      WHERE skill_id = p_skill_id;
+ 18     EXCEPTION
+ 19      WHEN NO_DATA_FOUND THEN
+ 20       DBMS_OUTPUT.PUT_LINE('Skill number ' || p_skill_id || ' does not exist MY FRIEND, try again! ');
+ 21     SELECT certification
+ 22     INTO v_certification
+ 23     FROM consultant_skill
+ 24     WHERE c_id = p_c_id;
+ 25     DBMS_OUTPUT.PUT_LINE('UPDATE');
+ 26        UPDATE consultant_skill SET certification = p_certification WHERE c_id = p_c_id;
+ 27      COMMIT;
+ 28    EXCEPTION
+ 29     WHEN NO_DATA_FOUND THEN
+ 30       DBMS_OUTPUT.PUT_LINE('INSERT');
+ 31     INSERT INTO consultant_skill(c_id , skill_id, certification)
+ 32     VALUES (p_c_id, p_skill_id, p_certification);
+ 33    COMMIT;
+ 34    DBMS_OUTPUT.PUT_LINE(' Consultant's last name is ' || v_c_last || ', first name is ' || v_c_first || ' skill description : ' || v_skill_description );
+ 35  END;
+ 36  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show error
+Errors for PROCEDURE P3Q4:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+6/1      PLS-00103: Encountered the symbol "BEGIN" when expecting one of        
+         the following:                                                         
+         := ; not null default character                                        
+         The symbol ";" was substituted for "BEGIN" to continue.                
+                                                                                
+18/4     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+                                                                                
+28/3     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+                                                                                
+34/37    PLS-00103: Encountered the symbol "S" when expecting one of the        
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE p3q4 (p_c_id NUMBER, p_skill_id NUMBER, p_certification VARCHAR2) AS
+  2  v_c_last VARCHAR2(20);
+  3  v_c_first VARCHAR2(20);
+  4  v_skill_description VARCHAR2(20);
+  5  v_certification VARCHAR2(8);
+  6  BEGIN
+  7      SELECT c_last, c_first
+  8      INTO v_c_last, v_c_first
+  9      FROM consultant
+ 10      WHERE c_id = p_c_id;
+ 11    EXCEPTION
+ 12      WHEN NO_DATA_FOUND THEN
+ 13       DBMS_OUTPUT.PUT_LINE('Consultant number ' || p_c_id || ' does not exist MY FRIEND, try again! ');
+ 14      SELECT skill_description
+ 15      INTO v_skill_description
+ 16      FROM skill
+ 17      WHERE skill_id = p_skill_id;
+ 18     EXCEPTION
+ 19      WHEN NO_DATA_FOUND THEN
+ 20       DBMS_OUTPUT.PUT_LINE('Skill number ' || p_skill_id || ' does not exist MY FRIEND, try again! ');
+ 21     SELECT certification
+ 22     INTO v_certification
+ 23     FROM consultant_skill
+ 24     WHERE c_id = p_c_id;
+ 25     DBMS_OUTPUT.PUT_LINE('UPDATE');
+ 26        UPDATE consultant_skill SET certification = p_certification WHERE c_id = p_c_id;
+ 27      COMMIT;
+ 28    EXCEPTION
+ 29     WHEN NO_DATA_FOUND THEN
+ 30       DBMS_OUTPUT.PUT_LINE('INSERT');
+ 31     INSERT INTO consultant_skill(c_id , skill_id, certification)
+ 32     VALUES (p_c_id, p_skill_id, p_certification);
+ 33    COMMIT;
+ 34    DBMS_OUTPUT.PUT_LINE(' Consultant's last name is ' || v_c_last || ', first name is ' || v_c_first || ' skill description : ' || v_skill_description );
+ 35  END;
+ 36  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show error
+Errors for PROCEDURE P3Q4:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+18/4     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+                                                                                
+28/3     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+                                                                                
+34/37    PLS-00103: Encountered the symbol "S" when expecting one of the        
+         following:                                                             
+         ) , * & = - + < / > at in is mod remainder not rem =>                  
+         <an exponent (**)> <> or != or ~= >= <= <> and or like like2           
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         like4 likec as between from using || multiset member                   
+         submultiset                                                            
+                                                                                
+SQL> CREATE OR REPLACE PROCEDURE p3q4 (p_c_id NUMBER, p_skill_id NUMBER, p_certification VARCHAR2) AS
+  2  v_c_last VARCHAR2(20);
+  3  v_c_first VARCHAR2(20);
+  4  v_skill_description VARCHAR2(20);
+  5  v_certification VARCHAR2(8);
+  6  BEGIN
+  7      SELECT c_last, c_first
+  8      INTO v_c_last, v_c_first
+  9      FROM consultant
+ 10      WHERE c_id = p_c_id;
+ 11    EXCEPTION
+ 12      WHEN NO_DATA_FOUND THEN
+ 13       DBMS_OUTPUT.PUT_LINE('Consultant number ' || p_c_id || ' does not exist MY FRIEND, try again! ');
+ 14      SELECT skill_description
+ 15      INTO v_skill_description
+ 16      FROM skill
+ 17      WHERE skill_id = p_skill_id;
+ 18     EXCEPTION
+ 19      WHEN NO_DATA_FOUND THEN
+ 20       DBMS_OUTPUT.PUT_LINE('Skill number ' || p_skill_id || ' does not exist MY FRIEND, try again! ');
+ 21     SELECT certification
+ 22     INTO v_certification
+ 23     FROM consultant_skill
+ 24     WHERE c_id = p_c_id;
+ 25     DBMS_OUTPUT.PUT_LINE('UPDATE');
+ 26        UPDATE consultant_skill SET certification = p_certification WHERE c_id = p_c_id;
+ 27      COMMIT;
+ 28    EXCEPTION
+ 29     WHEN NO_DATA_FOUND THEN
+ 30       DBMS_OUTPUT.PUT_LINE('INSERT');
+ 31     INSERT INTO consultant_skill(c_id , skill_id, certification)
+ 32     VALUES (p_c_id, p_skill_id, p_certification);
+ 33    COMMIT;
+ 34    DBMS_OUTPUT.PUT_LINE(' Consultant''s last name is ' || v_c_last || ', first name is ' || v_c_first || ' skill description : ' || v_skill_description );
+ 35  END;
+ 36  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show error
+Errors for PROCEDURE P3Q4:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+18/4     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+                                                                                
+28/3     PLS-00103: Encountered the symbol "EXCEPTION" when expecting one       
+         of the following:                                                      
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+         ( begin case declare end exit for goto if loop mod null                
+         pragma raise return select update when while with                      
+         <an identifier> <a double-quoted delimited-identifier>                 
+         <a bind variable> << continue close current delete fetch lock          
+         insert open rollback savepoint set sql execute commit forall           
+         merge pipe purge                                                       
+                                                                                
+35/4     PLS-00103: Encountered the symbol "end-of-file" when expecting         
+         one of the following:                                                  
+         end not pragma final instantiable order overriding static              
+         member constructor map                                                 
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+                                                                                
+SQL> spool off
