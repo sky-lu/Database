@@ -1,0 +1,224 @@
+SQL> CREATE OR REPLACE PROCEDURE p_compare ( n1 NUMBER, n2 NUMBER, result OUT VARCHAR2) AS
+  2  v_result VARCHAR2(15);
+  3  BEGIN
+  4      IF n1 = n2 THEN
+  5         v_result := 'EQUAL';
+  6      ELSE
+  7         v_result := 'DIFFERENT';
+  8      END IF;
+  9      result := v_result;
+ 10  END;
+ 11  /
+
+Procedure created.
+
+SQL> CREATE OR REPLACE PROCEDURE p_calculate ( side1_area IN OUT NUMBER, side2_perimeter IN OUT NUMBER) AS
+  2  side1 NUMBER := side1_area;
+  3  side2 NUMBER := side2_perimeter;
+  4  BEGIN
+  5      side1_area := side1 * side2;
+  6      side2_perimeter := (side1 +side2) * 2;
+  7  END;
+  8  /
+
+Procedure created.
+
+SQL> CREATE OR REPLACE PROCEDURE p4q1 (n1 NUMBER, n2 NUMBER) AS
+  2  result VARCHAR2(15);
+  3  v_n1 NUMBER := n1;
+  4  v_n2 NUMBER := n2;
+  5  area NUMBER;
+  6  perimeter NUMBER;
+  7  BEGIN
+  8      p_compare(n1, n2 , result);
+  9      p_caculate(v_n1, v_n2);
+ 10      area := v_n1 ;
+ 11      perimeter := v_n2;
+ 12       IF result = 'EQUAL' THEN
+ 13         DBMS_OUTPUT.PUT_LINE(' The area of a square size ' ||  n1  || ' by ' ||  n2  || ' is ' ||  area  || ' . It''s perimeter is ' ||  perimeter || '.' );
+ 14      ELSE
+ 15         DBMS_OUTPUT.PUT_LINE(' The area of a rectangle size ' ||  n1 || ' by ' || n2 || ' is ' ||   area || ' . It''s perimeter is ' ||  perimeter  || '. ');
+ 16      END IF;
+ 17  END;
+ 18  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p4q1(2,2)
+The area of a square size 2 by 2 is 4 . It's perimeter is 8.                    
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p4q1(2,3)
+The area of a rectangle size 2 by 3 is 6 . It's perimeter is 10.                
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE pseudo_fun ( height_area IN OUT NUMBER, width_perimeter IN OUT NUMBER) AS
+  2  height NUMBER := height_area;
+  3  width NUMBER := width_perimeter;
+  4  BEGIN
+  5      height_area := height * width;
+  6      width_perimeter := (height + width) * 2;
+  7  END;
+  8  /
+
+Procedure created.
+
+SQL> CREATE OR REPLACE PROCEDURE p4q2 (n1 NUMBER, n2 NUMBER) AS
+  2  result VARCHAR2(15);
+  3  v_n1 NUMBER := n1;
+  4  v_n2 NUMBER := n2;
+  5  area NUMBER;
+  6  perimeter NUMBER;
+  7  BEGIN
+  8      pseudo_fun(v_n1, v_n2);
+  9      area := v_n1 ;
+ 10      perimeter := v_n2;
+ 11       IF n1 = n2 THEN
+ 12         DBMS_OUTPUT.PUT_LINE(' The area of a square size ' ||  n1  || ' by ' ||  n2  || ' is ' ||  area  || ' . It''s perimeter is ' ||  perimeter || '.' );
+ 13      ELSE
+ 14         DBMS_OUTPUT.PUT_LINE(' The area of a rectangle size ' ||  n1 || ' by ' || n2 || ' is ' ||   area || ' . It''s perimeter is ' ||  perimeter  || '. ');
+ 15      END IF;
+ 16  END;
+ 17  /
+
+Procedure created.
+
+SQL> exec p4q2(2,2)
+The area of a square size 2 by 2 is 4 . It's perimeter is 8.                    
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p4q2(2,3)
+The area of a rectangle size 2 by 3 is 6 . It's perimeter is 10.                
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p4q3_1 (inv_id_qoh IN OUT NUMBER, percentage_new_price IN OUT NUMBER) AS
+  2  p_inv_id NUMBER := inv_id_qoh;
+  3  p_percentage NUMBER := percentage_new_price;
+  4  p_inv_price NUMBER;
+  5  p_inv_qoh NUMBER;
+  6  BEGIN
+  7      UPDATE inventory
+  8      SET inv_price = inv_price + inv_price * p_percentage * 0.01;
+  9      SELECT inv_qoh, inv_price
+ 10      INTO p_inv_qoh, p_inv_price
+ 11      FROM inventory
+ 12      WHERE inv_id = p_inv_id;
+ 13      inv_id_qoh := p_inv_qoh;
+ 14      percentage_new_price := p_inv_price;
+ 15      EXCEPTION
+ 16      WHEN NO_DATA_FOUND THEN
+ 17         DBMS_OUTPUT.PUT_LINE('Inventory number ' || inv_id_qoh ||
+ 18         ' does not exist my friend !');
+ 19  END;
+ 20  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> show error
+Errors for PROCEDURE P4Q3_1:
+
+LINE/COL ERROR                                                                  
+-------- -----------------------------------------------------------------      
+7/5      PL/SQL: SQL Statement ignored                                          
+7/12     PL/SQL: ORA-00942: table or view does not exist                        
+9/5      PL/SQL: SQL Statement ignored                                          
+11/10    PL/SQL: ORA-00942: table or view does not exist                        
+SQL> connect c##nora02/nora02;
+Connected.
+SQL> select * from inventory;
+
+    INV_ID    ITEM_ID COLOR                INV_SIZE    INV_PRICE    INV_QOH     
+---------- ---------- -------------------- ---------- ---------- ----------     
+         1          2 Sky Blue                            285.99         16     
+         2          2 Light Grey                          285.99         12     
+         3          3 Khaki                S               32.95        150     
+         4          3 Khaki                M               32.95        147     
+         5          3 Khaki                L               32.95          0     
+         6          3 Navy                 S               32.95        139     
+         7          3 Navy                 M               32.95        137     
+         8          3 Navy                 L               32.95        115     
+         9          4 Eggplant             S               65.95        135     
+        10          4 Eggplant             M               65.95        168     
+        11          4 Eggplant             L               65.95        187     
+
+    INV_ID    ITEM_ID COLOR                INV_SIZE    INV_PRICE    INV_QOH     
+---------- ---------- -------------------- ---------- ---------- ----------     
+        12          4 Royal                S               65.95          0     
+        13          4 Royal                M               65.95        124     
+        14          4 Royal                L               65.95        112     
+        15          5 Turquoise            10              17.59        121     
+        16          5 Turquoise            11              17.59        111     
+        17          5 Turquoise            12              17.59        113     
+        18          5 Turquoise            1               17.59        121     
+        19          5 Bright Pink          10              17.59        148     
+        20          5 Bright Pink          11              17.59        137     
+        21          5 Bright Pink          12              17.59        134     
+        22          5 Bright Pink          1               17.59        123     
+
+    INV_ID    ITEM_ID COLOR                INV_SIZE    INV_PRICE    INV_QOH     
+---------- ---------- -------------------- ---------- ---------- ----------     
+        23          1 Spruce               S              219.95        114     
+        24          1 Spruce               M              219.95         17     
+        25          1 Spruce               L              230.95          0     
+        26          1 Spruce               XL             230.95         12     
+        27          6 Blue                 S               17.55         50     
+        28          6 Blue                 M               17.55        100     
+        29          6 Blue                 L               17.55        100     
+        30          7 White                S               21.99        100     
+        31          7 White                M               21.99        100     
+        32          7 White                L               21.99        100     
+
+32 rows selected.
+
+SQL> CREATE OR REPLACE PROCEDURE p4q3_1 (inv_id_qoh IN OUT NUMBER, percentage_new_price IN OUT NUMBER) AS
+  2  p_inv_id NUMBER := inv_id_qoh;
+  3  p_percentage NUMBER := percentage_new_price;
+  4  p_inv_price NUMBER;
+  5  p_inv_qoh NUMBER;
+  6  BEGIN
+  7      UPDATE inventory
+  8      SET inv_price = inv_price + inv_price * p_percentage * 0.01;
+  9      SELECT inv_qoh, inv_price
+ 10      INTO p_inv_qoh, p_inv_price
+ 11      FROM inventory
+ 12      WHERE inv_id = p_inv_id;
+ 13      inv_id_qoh := p_inv_qoh;
+ 14      percentage_new_price := p_inv_price;
+ 15      EXCEPTION
+ 16      WHEN NO_DATA_FOUND THEN
+ 17         DBMS_OUTPUT.PUT_LINE('Inventory number ' || inv_id_qoh ||
+ 18         ' does not exist my friend !');
+ 19  END;
+ 20  /
+
+Procedure created.
+
+SQL> CREATE OR REPLACE PROCEDURE p4q3_2 (inv_id NUMBER, percentage NUMBER) AS
+  2  p_id NUMBER := inv_id;
+  3  p_percentage NUMBER := percentage;
+  4  value NUMBER;
+  5  BEGIN
+  6      p4q3_1(p_id, p_percentage);
+  7      value := p_id * p_percentage;
+  8      DBMS_OUTPUT.PUT_LINE(' The new value of this inventory is $ ' || value);
+  9  END;
+ 10  /
+
+Procedure created.
+
+SQL> exec p4q3_2(32, 10)
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on
+SQL> exec p4q3_2(32, 10)
+The new value of this inventory is $ 2661                                       
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off
