@@ -1,0 +1,304 @@
+SQL> connect c##nora03/nora03;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p5q1 AS
+  2       CURSOR term_curr IS
+  3         SELECT term_id, term_desc, status
+  4         FROM term;
+  5         v_term_id term.term_id%TYPE;
+  6         v_term_desc term.term_desc%TYPE;
+  7         v_status term.status%TYPE;
+  8  BEGIN
+  9      OPEN term_curr;
+ 10      FETCH term_curr INTO v_term_id, v_term_desc, v_status;
+ 11        WHILE term_curr%FOUND LOOP
+ 12          DBMS_OUTPUT.PUT_LINE(' Term ID: ' || v_term_id || ' ; term desc : ' || v_term_desc || ' ; status: ' || v_status );
+ 13          FETCH term_curr INTO v_term_id, v_term_desc, v_status;
+ 14        END LOOP;
+ 15     CLOSE term_curr;
+ 16  END;
+ 17  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p5q1;
+Term ID: 1 ; term desc : Fall 2005 ; status: CLOSED                             
+Term ID: 2 ; term desc : Spring 2006 ; status: CLOSED                           
+Term ID: 3 ; term desc : Summer 2006 ; status: CLOSED                           
+Term ID: 4 ; term desc : Fall 2006 ; status: CLOSED                             
+Term ID: 5 ; term desc : Spring 2007 ; status: CLOSED                           
+Term ID: 6 ; term desc : Summer 2007 ; status: OPEN                             
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora02/nora02;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p5q2 AS
+  2      CURSOR item_curr IS
+  3       SELECT item_desc, color, inv_price, inv_qoh
+  4       FROM item, inventory
+  5       WHERE item.item_id = inventory.item_id;
+  6       v_item_desc item.item_desc%TYPE;
+  7       v_color inventory.color%TYPE;
+  8       v_inv_price inventory.inv_price%TYPE;
+  9       v_inv_qoh inventory.inv_qoh%TYPE;
+ 10  BEGIN
+ 11       OPEN item_curr;
+ 12       FETCH item_curr INTO v_item_desc, v_color, v_inv_price, v_inv_qoh;
+ 13          WHILE item_curr%FOUND LOOP
+ 14            DBMS_OUTPUT.PUT_LINE('Item description : ' || v_item_desc || ' ; color : ' || v_color || ' ; price : ' || v_inv_price || ' ; quantity on hand : ' || v_inv_qoh);
+ 15            FETCH item_curr INTO v_item_desc, v_color, v_inv_price, v_inv_qoh;
+ 16         END LOOP;
+ 17      CLOSE item_curr;
+ 18  END;
+ 19  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p5q2
+Item description : Men's Expedition Parka ; color : Spruce ; price : 307.41 ;   
+quantity on hand : 0                                                            
+Item description : Men's Expedition Parka ; color : Spruce ; price : 292.77 ;   
+quantity on hand : 17                                                           
+Item description : Men's Expedition Parka ; color : Spruce ; price : 292.77 ;   
+quantity on hand : 114                                                          
+Item description : Men's Expedition Parka ; color : Spruce ; price : 307.41 ;   
+quantity on hand : 12                                                           
+Item description : 3-Season Tent ; color : Light Grey ; price : 380.66 ;        
+quantity on hand : 12                                                           
+Item description : 3-Season Tent ; color : Sky Blue ; price : 460.6 ; quantity  
+on hand : 16                                                                    
+Item description : Women's Hiking Shorts ; color : Khaki ; price : 43.87 ;      
+quantity on hand : 0                                                            
+Item description : Women's Hiking Shorts ; color : Navy ; price : 43.87 ;       
+quantity on hand : 137                                                          
+Item description : Women's Hiking Shorts ; color : Khaki ; price : 43.87 ;      
+quantity on hand : 150                                                          
+Item description : Women's Hiking Shorts ; color : Khaki ; price : 43.87 ;      
+quantity on hand : 147                                                          
+Item description : Women's Hiking Shorts ; color : Navy ; price : 43.87 ;       
+quantity on hand : 115                                                          
+Item description : Women's Hiking Shorts ; color : Navy ; price : 43.87 ;       
+quantity on hand : 139                                                          
+Item description : Women's Fleece Pullover ; color : Royal ; price : 87.79 ;    
+quantity on hand : 112                                                          
+Item description : Women's Fleece Pullover ; color : Royal ; price : 87.79 ;    
+quantity on hand : 124                                                          
+Item description : Women's Fleece Pullover ; color : Eggplant ; price : 87.79 ; 
+quantity on hand : 187                                                          
+Item description : Women's Fleece Pullover ; color : Eggplant ; price : 87.79 ; 
+quantity on hand : 168                                                          
+Item description : Women's Fleece Pullover ; color : Eggplant ; price : 87.79 ; 
+quantity on hand : 135                                                          
+Item description : Women's Fleece Pullover ; color : Royal ; price : 87.79 ;    
+quantity on hand : 0                                                            
+Item description : Children's Beachcomber Sandals ; color : Bright Pink ; price 
+: 23.42 ; quantity on hand : 123                                                
+Item description : Children's Beachcomber Sandals ; color : Bright Pink ; price 
+: 23.42 ; quantity on hand : 134                                                
+Item description : Children's Beachcomber Sandals ; color : Bright Pink ; price 
+: 23.42 ; quantity on hand : 137                                                
+Item description : Children's Beachcomber Sandals ; color : Bright Pink ; price 
+: 23.42 ; quantity on hand : 148                                                
+Item description : Children's Beachcomber Sandals ; color : Turquoise ; price : 
+23.42 ; quantity on hand : 121                                                  
+Item description : Children's Beachcomber Sandals ; color : Turquoise ; price : 
+23.42 ; quantity on hand : 113                                                  
+Item description : Children's Beachcomber Sandals ; color : Turquoise ; price : 
+23.42 ; quantity on hand : 121                                                  
+Item description : Children's Beachcomber Sandals ; color : Turquoise ; price : 
+23.42 ; quantity on hand : 111                                                  
+Item description : Boy's Surf Shorts ; color : Blue ; price : 23.36 ; quantity  
+on hand : 50                                                                    
+Item description : Boy's Surf Shorts ; color : Blue ; price : 23.36 ; quantity  
+on hand : 100                                                                   
+Item description : Boy's Surf Shorts ; color : Blue ; price : 23.36 ; quantity  
+on hand : 100                                                                   
+Item description : Girl's Soccer Tee ; color : White ; price : 29.27 ; quantity 
+on hand : 100                                                                   
+Item description : Girl's Soccer Tee ; color : White ; price : 29.27 ; quantity 
+on hand : 100                                                                   
+Item description : Girl's Soccer Tee ; color : White ; price : 29.27 ; quantity 
+on hand : 100                                                                   
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p5q3 (percentage NUMBER) AS
+  2      CURSOR price_curr IS
+  3         SELECT inv_price
+  4         FROM inventory
+  5         FOR UPDATE of inv_price;
+  6         v_inv_price inventory.inv_price%TYPE;
+  7         new_price inventory.inv_price%TYPE;
+  8  BEGIN
+  9        OPEN price_curr;
+ 10        FETCH price_curr INTO v_inv_price;
+ 11          WHILE price_curr%FOUND LOOP
+ 12              new_price := v_inv_price + v_inv_price * percentage * 0.01;
+ 13              DBMS_OUTPUT.PUT_LINE(' Old price : ' || v_inv_price || ' New price : ' || new_price);
+ 14              UPDATE inventory
+ 15              SET inv_price = new_price
+ 16              WHERE CURRENT OF price_curr;
+ 17             FETCH price_curr INTO v_inv_price;
+ 18         END LOOP;
+ 19      CLOSE price_curr;
+ 20   COMMIT;
+ 21  END;
+ 22  /
+
+Procedure created.
+
+SQL> exec p5q3(10);
+Old price : 460.6 New price : 506.66                                            
+Old price : 380.66 New price : 418.73                                           
+Old price : 43.87 New price : 48.26                                             
+Old price : 43.87 New price : 48.26                                             
+Old price : 43.87 New price : 48.26                                             
+Old price : 43.87 New price : 48.26                                             
+Old price : 43.87 New price : 48.26                                             
+Old price : 43.87 New price : 48.26                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 87.79 New price : 96.57                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 23.42 New price : 25.76                                             
+Old price : 292.77 New price : 322.05                                           
+Old price : 292.77 New price : 322.05                                           
+Old price : 307.41 New price : 338.15                                           
+Old price : 307.41 New price : 338.15                                           
+Old price : 23.36 New price : 25.7                                              
+Old price : 23.36 New price : 25.7                                              
+Old price : 23.36 New price : 25.7                                              
+Old price : 29.27 New price : 32.2                                              
+Old price : 29.27 New price : 32.2                                              
+Old price : 29.27 New price : 32.2                                              
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p5q3(10);
+Old price : 506.66 New price : 557.33                                           
+Old price : 418.73 New price : 460.6                                            
+Old price : 48.26 New price : 53.09                                             
+Old price : 48.26 New price : 53.09                                             
+Old price : 48.26 New price : 53.09                                             
+Old price : 48.26 New price : 53.09                                             
+Old price : 48.26 New price : 53.09                                             
+Old price : 48.26 New price : 53.09                                             
+Old price : 96.57 New price : 106.23                                            
+Old price : 96.57 New price : 106.23                                            
+Old price : 96.57 New price : 106.23                                            
+Old price : 96.57 New price : 106.23                                            
+Old price : 96.57 New price : 106.23                                            
+Old price : 96.57 New price : 106.23                                            
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 25.76 New price : 28.34                                             
+Old price : 322.05 New price : 354.26                                           
+Old price : 322.05 New price : 354.26                                           
+Old price : 338.15 New price : 371.97                                           
+Old price : 338.15 New price : 371.97                                           
+Old price : 25.7 New price : 28.27                                              
+Old price : 25.7 New price : 28.27                                              
+Old price : 25.7 New price : 28.27                                              
+Old price : 32.2 New price : 35.42                                              
+Old price : 32.2 New price : 35.42                                              
+Old price : 32.2 New price : 35.42                                              
+
+PL/SQL procedure successfully completed.
+
+SQL> CONNECT c##scott/tiger;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p5q4 (num NUMBER) AS
+  2       CURSOR emp_curr IS
+  3         SELECT ename, sal
+  4         FROM emp
+  5         ORDER BY 2 DESC;
+  6         v_ename emp.ename%TYPE;
+  7         v_sal emp.sal%TYPE;
+  8         v_counter NUMBER := 1;
+  9  BEGIN
+ 10       OPEN emp_curr;
+ 11       DBMS_OUTPUT.PUT_LINE(' Top ' || num || ' employees are ');
+ 12       WHILE v_counter <= num LOOP
+ 13         FETCH emp_curr INTO v_ename, v_sal;
+ 14         IF emp_curr%FOUND THEN
+ 15            DBMS_OUTPUT.PUT_LINE(v_ename);
+ 16         END IF;
+ 17         v_counter := v_counter + 1;
+ 18      END LOOP;
+ 19    CLOSE emp_curr;
+ 20  END;
+ 21  /
+
+Procedure created.
+
+SQL> exec p5q4(2)
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on
+SQL> exec p5q4(2)
+Top 2 employees are                                                             
+KING                                                                            
+SCOTT                                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p5q5 (num NUMBER) AS
+  2      CURSOR sal_curr IS
+  3       SELECT DISTINCT sal
+  4       FROM emp
+  5       ORDER BY 1 DESC;
+  6       v_sal emp.sal%TYPE;
+  7       v_counter NUMBER := 1;
+  8  
+  9      CURSOR emp_curr (p_sal NUMBER) IS
+ 10      SELECT ename
+ 11      FROM emp
+ 12      WHERE sal = p_sal;
+ 13      v_ename emp.ename%TYPE;
+ 14  
+ 15  BEGIN
+ 16      OPEN sal_curr;
+ 17      DBMS_OUTPUT.PUT_LINE(' Employee who make the top ' ||  num || ' salary are ');
+ 18        WHILE v_counter <= num LOOP
+ 19          FETCH sal_curr INTO v_sal;
+ 20           OPEN emp_curr(v_sal);
+ 21             FETCH emp_curr INTO v_ename;
+ 22              WHILE emp_curr%FOUND LOOP
+ 23                 DBMS_OUTPUT.PUT_LINE(v_ename);
+ 24                 FETCH emp_curr INTO v_ename;
+ 25              END LOOP;
+ 26           CLOSE emp_curr;
+ 27          v_counter := v_counter + 1;
+ 28        END LOOP;
+ 29     CLOSE sal_curr;
+ 30  END;
+ 31  /
+
+Procedure created.
+
+SQL> exec p5q5(2)
+Employee who make the top 2 salary are                                          
+KING                                                                            
+SCOTT                                                                           
+FORD                                                                            
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off
