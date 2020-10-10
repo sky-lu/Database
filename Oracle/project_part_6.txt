@@ -1,0 +1,461 @@
+SQL> connect c##nora03/nora03;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p6q1 AS
+  2      CURSOR faculty_curr IS
+  3        SELECT f_id, f_last, f_first, f_rank
+  4        FROM faculty;
+  5        v_f_id faculty.f_id%TYPE;
+  6        v_f_last faculty.f_last%TYPE;
+  7        v_f_first faculty.f_first%TYPE;
+  8        v_f_rank faculty.f_rank%TYPE;
+  9  
+ 10      CURSOR student_curr (p_f_id NUMBER) IS
+ 11         SELECT s_id, s_last, s_first, s_dob, s_class
+ 12         FROM student
+ 13         WHERE f_id = p_f_id;
+ 14         v_s_id student.s_id%TYPE;
+ 15         v_s_last student.s_last%TYPE;
+ 16         v_s_first student.s_first%TYPE;
+ 17         v_s_dob student.s_dob%TYPE;
+ 18         v_s_class student.s_class%TYPE;
+ 19  
+ 20  BEGIN
+ 21      OPEN faculty_curr;
+ 22      FETCH faculty_curr INTO v_f_id, v_f_last, v_f_first, v_f_rank;
+ 23      WHILE faculty_curr%FOUND LOOP
+ 24         DBMS_OUTPUT.PUT_LINE('-------------------------------');
+ 25         DBMS_OUTPUT.PUT_LINE('Faculty : ' || v_f_id || ' Last name : ' || v_f_last || ' First name : ' || v_f_first || ' Rank : ' || v_f_rank);
+ 26  
+ 27         OPEN student_curr(v_f_id);
+ 28         FETCH student_curr INTO v_s_id, v_s_last, v_s_first, v_s_dob, v_s_class ;
+ 29         WHILE student_curr%FOUND LOOP
+ 30            DBMS_OUTPUT.PUT_LINE(' Student number ' || v_s_id || ' is ' || v_s_first  ||  v_s_last || ' Birthdate is ' || v_s_dob || ' Class is ' || v_s_class);
+ 31            FETCH student_curr INTO v_s_id, v_s_last, v_s_first, v_s_dob, v_s_class ;
+ 32        END LOOP;
+ 33        CLOSE student_curr;
+ 34        FETCH faculty_curr INTO v_f_id, v_f_last, v_f_first, v_f_rank;
+ 35     END LOOP;
+ 36     CLOSE faculty_curr;
+ 37  END;
+ 38  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p6q1;
+-------------------------------                                                 
+Faculty : 1 Last name : Cox First name : Kim Rank : ASSO                        
+Student number 1 is SarahMiller Birthdate is 14-JUL-85 Class is SR              
+Student number 2 is BrianUmato Birthdate is 19-AUG-85 Class is SR               
+Student number 3 is DanielBlack Birthdate is 10-OCT-82 Class is JR              
+-------------------------------                                                 
+Faculty : 2 Last name : Blanchard First name : John Rank : FULL                 
+Student number 4 is AmandaMobley Birthdate is 24-SEP-86 Class is SO             
+-------------------------------                                                 
+Faculty : 3 Last name : Williams First name : Jerry Rank : ASST                 
+Student number 6 is MichaelConnoly Birthdate is 04-DEC-86 Class is FR           
+-------------------------------                                                 
+Faculty : 4 Last name : Sheng First name : Laura Rank : INST                    
+Student number 5 is RubenSanchez Birthdate is 20-NOV-86 Class is SO             
+-------------------------------                                                 
+Faculty : 5 Last name : Brown First name : Philip Rank : ASSO                   
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora04/nora04;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p6q2 AS
+  2     CURSOR consultant_curr IS
+  3        SELECT c_id
+  4        FROM consultant;
+  5        v_c_id consultant.c_id%TYPE;
+  6  
+  7     CURSOR consultant_skill_curr(p_c_id NUMBER)IS
+  8        SELECT skill_id, certification
+  9        FROM consultant_skill
+ 10        WHERE c_id = p_c_id;
+ 11        v_skill_id consultant_skill.skill_id%TYPE;
+ 12        v_certification consultant_skill.certification%TYPE;
+ 13  
+ 14         v_skill_description skill.skill_description%TYPE;
+ 15  
+ 16  BEGIN
+ 17        OPEN consultant_curr;
+ 18        FETCH consultant_curr INTO v_c_id;
+ 19        WHILE consultant_curr%FOUND  LOOP
+ 20            DBMS_OUTPUT.PUT_LINE('--------------------------');
+ 21            DBMS_OUTPUT.PUT_LINE('Consultant number : ' || v_c_id);
+ 22  
+ 23            OPEN consultant_skill_curr(v_c_id);
+ 24            FETCH consultant_skill_curr INTO v_skill_id, v_certification;
+ 25            WHILE consultant_skill_curr%FOUND LOOP
+ 26                  SELECT skill_description INTO v_skill_description FROM skill WHERE skill_id =  v_skill_id;
+ 27                  DBMS_OUTPUT.PUT_LINE(' Skill description : ' || v_skill_description  || '   Certification : ' || v_certification);
+ 28                  FETCH consultant_skill_curr INTO v_skill_id, v_certification;
+ 29            END LOOP;
+ 30            CLOSE consultant_skill_curr;
+ 31            FETCH consultant_curr INTO v_c_id;
+ 32        END LOOP;
+ 33       CLOSE consultant_curr;
+ 34  END;
+ 35  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p6q2;
+--------------------------                                                      
+Consultant number : 100                                                         
+Skill description : VB .NET Programming   Certification : Y                     
+Skill description : Java Programming   Certification : N                        
+Skill description : Oracle Developer Programming   Certification : Y            
+--------------------------                                                      
+Consultant number : 101                                                         
+Skill description : Project Management   Certification : Y                      
+Skill description : Web Application Programming   Certification : Y             
+--------------------------                                                      
+Consultant number : 102                                                         
+Skill description : Oracle Database Administration   Certification : Y          
+--------------------------                                                      
+Consultant number : 103                                                         
+Skill description : VB .NET Programming   Certification : Y                     
+Skill description : Oracle Developer Programming   Certification : Y            
+Skill description : Windows NT/2000 Network Administration   Certification : Y  
+Skill description : Windows XP Network Administration   Certification : Y       
+--------------------------                                                      
+Consultant number : 104                                                         
+Skill description : Windows NT/2000 Network Administration   Certification : N  
+Skill description : Windows XP Network Administration   Certification : Y       
+--------------------------                                                      
+Consultant number : 105                                                         
+Skill description : COBOL Programming   Certification : N                       
+Skill description : Java Programming   Certification : N                        
+Skill description : Project Management   Certification : Y                      
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora02/nora02;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p6q3 AS
+  2     CURSOR item_curr IS
+  3        SELECT item_id, item_desc, cat_id
+  4        FROM item;
+  5        v_item_id item.item_id%TYPE;
+  6        v_item_desc item.item_desc%TYPE;
+  7        v_cat_id item.cat_id%TYPE;
+  8  
+  9     CURSOR inventory_curr(p_item_id NUMBER) IS
+ 10        SELECT inv_id, color, inv_size, inv_price, inv_qoh
+ 11        FROM inventory
+ 12        WHERE item_id = p_item_id;
+ 13        v_inv_id inventory.inv_id%TYPE;
+ 14        v_inv_size inventory.inv_size%TYPE;
+ 15        v_color inventory.color%TYPE;
+ 16        v_inv_price inventory.inv_price%TYPE;
+ 17        v_inv_qoh inventory.inv_qoh%TYPE;
+ 18  
+ 19  BEGIN
+ 20      OPEN item_curr;
+ 21      FETCH item_curr INTO v_item_id, v_item_desc, v_cat_id;
+ 22      WHILE item_curr%FOUND LOOP
+ 23         DBMS_OUTPUT.PUT_LINE('--------------------------');
+ 24         DBMS_OUTPUT.PUT_LINE('Item number : ' ||  v_item_id  ||  '  Item description :  ' || v_item_desc || '  Cat number : ' ||  v_cat_id);
+ 25  
+ 26         OPEN inventory_curr(v_item_id);
+ 27         FETCH inventory_curr INTO v_inv_id, v_color, v_inv_size, v_inv_price, v_inv_qoh;
+ 28         WHILE inventory_curr%FOUND LOOP
+ 29           DBMS_OUTPUT.PUT_LINE('Inventory number : ' ||  v_inv_id  ||  '  Color :  ' || v_color || ' Size : ' ||  v_inv_size ||  ' Price : ' || v_inv_price || ' Quantity on hand : ' || v_inv_qoh);
+ 30           FETCH inventory_curr INTO v_inv_id, v_color, v_inv_size, v_inv_price, v_inv_qoh;
+ 31         END LOOP;
+ 32         CLOSE inventory_curr;
+ 33      FETCH item_curr INTO v_item_id, v_item_desc, v_cat_id;
+ 34      END LOOP;
+ 35     CLOSE item_curr;
+ 36  END;
+ 37  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p6q3;
+--------------------------                                                      
+Item number : 1  Item description :  Men's Expedition Parka  Cat number : 3     
+Inventory number : 23  Color :  Spruce Size : S Price : 354.26 Quantity on hand 
+: 114                                                                           
+Inventory number : 24  Color :  Spruce Size : M Price : 354.26 Quantity on hand 
+: 17                                                                            
+Inventory number : 25  Color :  Spruce Size : L Price : 371.97 Quantity on hand 
+: 0                                                                             
+Inventory number : 26  Color :  Spruce Size : XL Price : 371.97 Quantity on hand
+: 12                                                                            
+--------------------------                                                      
+Item number : 2  Item description :  3-Season Tent  Cat number : 4              
+Inventory number : 1  Color :  Sky Blue Size :  Price : 557.33 Quantity on hand 
+: 16                                                                            
+Inventory number : 2  Color :  Light Grey Size :  Price : 460.6 Quantity on hand
+: 12                                                                            
+--------------------------                                                      
+Item number : 3  Item description :  Women's Hiking Shorts  Cat number : 1      
+Inventory number : 3  Color :  Khaki Size : S Price : 53.09 Quantity on hand :  
+150                                                                             
+Inventory number : 4  Color :  Khaki Size : M Price : 53.09 Quantity on hand :  
+147                                                                             
+Inventory number : 5  Color :  Khaki Size : L Price : 53.09 Quantity on hand : 0
+Inventory number : 6  Color :  Navy Size : S Price : 53.09 Quantity on hand :   
+139                                                                             
+Inventory number : 7  Color :  Navy Size : M Price : 53.09 Quantity on hand :   
+137                                                                             
+Inventory number : 8  Color :  Navy Size : L Price : 53.09 Quantity on hand :   
+115                                                                             
+--------------------------                                                      
+Item number : 4  Item description :  Women's Fleece Pullover  Cat number : 1    
+Inventory number : 9  Color :  Eggplant Size : S Price : 106.23 Quantity on hand
+: 135                                                                           
+Inventory number : 10  Color :  Eggplant Size : M Price : 106.23 Quantity on    
+hand : 168                                                                      
+Inventory number : 11  Color :  Eggplant Size : L Price : 106.23 Quantity on    
+hand : 187                                                                      
+Inventory number : 12  Color :  Royal Size : S Price : 106.23 Quantity on hand :
+0                                                                               
+Inventory number : 13  Color :  Royal Size : M Price : 106.23 Quantity on hand :
+124                                                                             
+Inventory number : 14  Color :  Royal Size : L Price : 106.23 Quantity on hand :
+112                                                                             
+--------------------------                                                      
+Item number : 5  Item description :  Children's Beachcomber Sandals  Cat number 
+: 2                                                                             
+Inventory number : 15  Color :  Turquoise Size : 10 Price : 28.34 Quantity on   
+hand : 121                                                                      
+Inventory number : 16  Color :  Turquoise Size : 11 Price : 28.34 Quantity on   
+hand : 111                                                                      
+Inventory number : 17  Color :  Turquoise Size : 12 Price : 28.34 Quantity on   
+hand : 113                                                                      
+Inventory number : 18  Color :  Turquoise Size : 1 Price : 28.34 Quantity on    
+hand : 121                                                                      
+Inventory number : 19  Color :  Bright Pink Size : 10 Price : 28.34 Quantity on 
+hand : 148                                                                      
+Inventory number : 20  Color :  Bright Pink Size : 11 Price : 28.34 Quantity on 
+hand : 137                                                                      
+Inventory number : 21  Color :  Bright Pink Size : 12 Price : 28.34 Quantity on 
+hand : 134                                                                      
+Inventory number : 22  Color :  Bright Pink Size : 1 Price : 28.34 Quantity on  
+hand : 123                                                                      
+--------------------------                                                      
+Item number : 6  Item description :  Boy's Surf Shorts  Cat number : 2          
+Inventory number : 27  Color :  Blue Size : S Price : 28.27 Quantity on hand :  
+50                                                                              
+Inventory number : 28  Color :  Blue Size : M Price : 28.27 Quantity on hand :  
+100                                                                             
+Inventory number : 29  Color :  Blue Size : L Price : 28.27 Quantity on hand :  
+100                                                                             
+--------------------------                                                      
+Item number : 7  Item description :  Girl's Soccer Tee  Cat number : 2          
+Inventory number : 30  Color :  White Size : S Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 31  Color :  White Size : M Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 32  Color :  White Size : L Price : 35.42 Quantity on hand : 
+100                                                                             
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p6q4 AS
+  2     CURSOR item_curr IS
+  3        SELECT item_id, item_desc, cat_id
+  4        FROM item;
+  5        v_item_id item.item_id%TYPE;
+  6        v_item_desc item.item_desc%TYPE;
+  7        v_cat_id item.cat_id%TYPE;
+  8  
+  9     CURSOR inventory_curr(p_item_id NUMBER) IS
+ 10        SELECT inv_id, color, inv_size, inv_price, inv_qoh
+ 11        FROM inventory
+ 12        WHERE item_id = p_item_id;
+ 13        v_inv_id inventory.inv_id%TYPE;
+ 14        v_inv_size inventory.inv_size%TYPE;
+ 15        v_color inventory.color%TYPE;
+ 16        v_inv_price inventory.inv_price%TYPE;
+ 17        v_inv_qoh inventory.inv_qoh%TYPE;
+ 18        value NUMBER := 0;
+ 19  
+ 20  BEGIN
+ 21      OPEN item_curr;
+ 22      FETCH item_curr INTO v_item_id, v_item_desc, v_cat_id;
+ 23      WHILE item_curr%FOUND LOOP
+ 24         DBMS_OUTPUT.PUT_LINE('--------------------------');
+ 25  
+ 26         OPEN inventory_curr(v_item_id);
+ 27         FETCH inventory_curr INTO v_inv_id, v_color, v_inv_size, v_inv_price, v_inv_qoh;
+ 28         WHILE inventory_curr%FOUND LOOP
+ 29            value := value + v_inv_price * v_inv_qoh;
+ 30           DBMS_OUTPUT.PUT_LINE('Inventory number : ' ||  v_inv_id  ||  '  Color :  ' || v_color || ' Size : ' ||  v_inv_size ||  ' Price : ' || v_inv_price || ' Quantity on hand : ' || v_inv_qoh);
+ 31           FETCH inventory_curr INTO v_inv_id, v_color, v_inv_size, v_inv_price, v_inv_qoh;
+ 32         END LOOP;
+ 33  
+ 34         DBMS_OUTPUT.PUT_LINE('Item number : ' ||  v_item_id  ||  '  Item description :  ' || v_item_desc || '  Item value : ' || value || '  Cat number : ' ||  v_cat_id);
+ 35         CLOSE inventory_curr;
+ 36      FETCH item_curr INTO v_item_id, v_item_desc, v_cat_id;
+ 37      END LOOP;
+ 38     CLOSE item_curr;
+ 39  END;
+ 40  /
+
+Procedure created.
+
+SQL> exec p6q4;
+--------------------------                                                      
+Inventory number : 23  Color :  Spruce Size : S Price : 354.26 Quantity on hand 
+: 114                                                                           
+Inventory number : 24  Color :  Spruce Size : M Price : 354.26 Quantity on hand 
+: 17                                                                            
+Inventory number : 25  Color :  Spruce Size : L Price : 371.97 Quantity on hand 
+: 0                                                                             
+Inventory number : 26  Color :  Spruce Size : XL Price : 371.97 Quantity on hand
+: 12                                                                            
+Item number : 1  Item description :  Men's Expedition Parka  Item value :       
+50871.7  Cat number : 3                                                         
+--------------------------                                                      
+Inventory number : 1  Color :  Sky Blue Size :  Price : 557.33 Quantity on hand 
+: 16                                                                            
+Inventory number : 2  Color :  Light Grey Size :  Price : 460.6 Quantity on hand
+: 12                                                                            
+Item number : 2  Item description :  3-Season Tent  Item value : 65316.18  Cat  
+number : 4                                                                      
+--------------------------                                                      
+Inventory number : 3  Color :  Khaki Size : S Price : 53.09 Quantity on hand :  
+150                                                                             
+Inventory number : 4  Color :  Khaki Size : M Price : 53.09 Quantity on hand :  
+147                                                                             
+Inventory number : 5  Color :  Khaki Size : L Price : 53.09 Quantity on hand : 0
+Inventory number : 6  Color :  Navy Size : S Price : 53.09 Quantity on hand :   
+139                                                                             
+Inventory number : 7  Color :  Navy Size : M Price : 53.09 Quantity on hand :   
+137                                                                             
+Inventory number : 8  Color :  Navy Size : L Price : 53.09 Quantity on hand :   
+115                                                                             
+Item number : 3  Item description :  Women's Hiking Shorts  Item value :        
+101842.1  Cat number : 1                                                        
+--------------------------                                                      
+Inventory number : 9  Color :  Eggplant Size : S Price : 106.23 Quantity on hand
+: 135                                                                           
+Inventory number : 10  Color :  Eggplant Size : M Price : 106.23 Quantity on    
+hand : 168                                                                      
+Inventory number : 11  Color :  Eggplant Size : L Price : 106.23 Quantity on    
+hand : 187                                                                      
+Inventory number : 12  Color :  Royal Size : S Price : 106.23 Quantity on hand :
+0                                                                               
+Inventory number : 13  Color :  Royal Size : M Price : 106.23 Quantity on hand :
+124                                                                             
+Inventory number : 14  Color :  Royal Size : L Price : 106.23 Quantity on hand :
+112                                                                             
+Item number : 4  Item description :  Women's Fleece Pullover  Item value :      
+178965.08  Cat number : 1                                                       
+--------------------------                                                      
+Inventory number : 15  Color :  Turquoise Size : 10 Price : 28.34 Quantity on   
+hand : 121                                                                      
+Inventory number : 16  Color :  Turquoise Size : 11 Price : 28.34 Quantity on   
+hand : 111                                                                      
+Inventory number : 17  Color :  Turquoise Size : 12 Price : 28.34 Quantity on   
+hand : 113                                                                      
+Inventory number : 18  Color :  Turquoise Size : 1 Price : 28.34 Quantity on    
+hand : 121                                                                      
+Inventory number : 19  Color :  Bright Pink Size : 10 Price : 28.34 Quantity on 
+hand : 148                                                                      
+Inventory number : 20  Color :  Bright Pink Size : 11 Price : 28.34 Quantity on 
+hand : 137                                                                      
+Inventory number : 21  Color :  Bright Pink Size : 12 Price : 28.34 Quantity on 
+hand : 134                                                                      
+Inventory number : 22  Color :  Bright Pink Size : 1 Price : 28.34 Quantity on  
+hand : 123                                                                      
+Item number : 5  Item description :  Children's Beachcomber Sandals  Item value 
+: 207531.8  Cat number : 2                                                      
+--------------------------                                                      
+Inventory number : 27  Color :  Blue Size : S Price : 28.27 Quantity on hand :  
+50                                                                              
+Inventory number : 28  Color :  Blue Size : M Price : 28.27 Quantity on hand :  
+100                                                                             
+Inventory number : 29  Color :  Blue Size : L Price : 28.27 Quantity on hand :  
+100                                                                             
+Item number : 6  Item description :  Boy's Surf Shorts  Item value : 214599.3   
+Cat number : 2                                                                  
+--------------------------                                                      
+Inventory number : 30  Color :  White Size : S Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 31  Color :  White Size : M Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 32  Color :  White Size : L Price : 35.42 Quantity on hand : 
+100                                                                             
+Item number : 7  Item description :  Girl's Soccer Tee  Item value : 225225.3   
+Cat number : 2                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora04/nora04;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p6q5(p_c_id NUMBER, p_certification VARCHAR2) AS
+  2  
+  3     CURSOR consultant_skill_curr(p_c_id NUMBER)IS
+  4        SELECT skill_id, certification
+  5        FROM consultant_skill
+  6        WHERE c_id = p_c_id
+  7        FOR UPDATE OF certification;
+  8        v_skill_id consultant_skill.skill_id%TYPE;
+  9        v_certification consultant_skill.certification%TYPE;
+ 10  
+ 11         v_skill_description skill.skill_description%TYPE;
+ 12         v_c_last consultant.c_last%TYPE;
+ 13         v_c_first consultant.c_first%TYPE;
+ 14         v_c_email consultant.c_email%TYPE;
+ 15  
+ 16  BEGIN
+ 17        SELECT c_last, c_first, c_email INTO v_c_last, v_c_first, v_c_email FROM consultant WHERE c_id = p_c_id;
+ 18        DBMS_OUTPUT.PUT_LINE('--------------------------');
+ 19        DBMS_OUTPUT.PUT_LINE('Consultant number : ' || p_c_id || ' First name : ' ||  v_c_first || '  Last name : ' || v_c_last || '  Email : ' || v_c_email);
+ 20  
+ 21        OPEN consultant_skill_curr(p_c_id);
+ 22        FETCH consultant_skill_curr INTO v_skill_id, v_certification;
+ 23        WHILE consultant_skill_curr%FOUND LOOP
+ 24           SELECT skill_description INTO v_skill_description FROM skill WHERE skill_id =  v_skill_id;
+ 25           DBMS_OUTPUT.PUT_LINE(' Skill description : ' || v_skill_description  || '   Old certification : ' || v_certification || '  New certification : ' || p_certification);
+ 26           UPDATE consultant_skill SET certification = p_certification WHERE CURRENT OF consultant_skill_curr;
+ 27           FETCH consultant_skill_curr INTO v_skill_id, v_certification;
+ 28       END LOOP;
+ 29       CLOSE consultant_skill_curr;
+ 30       COMMIT;
+ 31  END;
+ 32  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p6q5(103, 'Y');
+--------------------------                                                      
+Consultant number : 103 First name : Sarah  Last name : Carlson  Email :        
+carlsons@swexpert.com                                                           
+Skill description : VB .NET Programming   Old certification : Y  New            
+certification : Y                                                               
+Skill description : Oracle Developer Programming   Old certification : Y  New   
+certification : Y                                                               
+Skill description : Windows NT/2000 Network Administration   Old certification :
+Y  New certification : Y                                                        
+Skill description : Windows XP Network Administration   Old certification : Y   
+New certification : Y                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> exec p6q5(103,'N');
+--------------------------                                                      
+Consultant number : 103 First name : Sarah  Last name : Carlson  Email :        
+carlsons@swexpert.com                                                           
+Skill description : VB .NET Programming   Old certification : Y  New            
+certification : N                                                               
+Skill description : Oracle Developer Programming   Old certification : Y  New   
+certification : N                                                               
+Skill description : Windows NT/2000 Network Administration   Old certification :
+Y  New certification : N                                                        
+Skill description : Windows XP Network Administration   Old certification : Y   
+New certification : N                                                           
+
+PL/SQL procedure successfully completed.
+
+SQL> spool off
