@@ -1,0 +1,324 @@
+SQL> connect c##nora03/nora03;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p7q1 AS
+  2      CURSOR faculty_curr IS
+  3        SELECT f_id, f_last, f_first, f_rank
+  4        FROM faculty;
+  5  
+  6      CURSOR student_curr (p_f_id NUMBER) IS
+  7         SELECT s_id, s_last, s_first, s_dob, s_class
+  8         FROM student
+  9         WHERE f_id = p_f_id;
+ 10  
+ 11  BEGIN
+ 12         FOR fac_index IN faculty_curr LOOP
+ 13         DBMS_OUTPUT.PUT_LINE('------------------------------------------------------------------------------');
+ 14         DBMS_OUTPUT.PUT_LINE('Faculty : ' || fac_index.f_id || ' Last name : ' || fac_index.f_last || ' First name : ' || fac_index.f_first || ' Rank : ' || fac_index.f_rank);
+ 15             FOR stu_index IN student_curr(fac_index.f_id) LOOP
+ 16                 DBMS_OUTPUT.PUT_LINE(' Student number ' || stu_index.s_id || ' is ' || stu_index.s_first   ||   stu_index.s_last || ' Birthdate is ' || stu_index.s_dob || ' Class is ' || stu_index.s_class);
+ 17             END LOOP;
+ 18          END LOOP;
+ 19  END;
+ 20  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p7q1;
+------------------------------------------------------------------------------  
+Faculty : 1 Last name : Cox First name : Kim Rank : ASSO                        
+Student number 1 is SarahMiller Birthdate is 14-JUL-85 Class is SR              
+Student number 2 is BrianUmato Birthdate is 19-AUG-85 Class is SR               
+Student number 3 is DanielBlack Birthdate is 10-OCT-82 Class is JR              
+------------------------------------------------------------------------------  
+Faculty : 2 Last name : Blanchard First name : John Rank : FULL                 
+Student number 4 is AmandaMobley Birthdate is 24-SEP-86 Class is SO             
+------------------------------------------------------------------------------  
+Faculty : 3 Last name : Williams First name : Jerry Rank : ASST                 
+Student number 6 is MichaelConnoly Birthdate is 04-DEC-86 Class is FR           
+------------------------------------------------------------------------------  
+Faculty : 4 Last name : Sheng First name : Laura Rank : INST                    
+Student number 5 is RubenSanchez Birthdate is 20-NOV-86 Class is SO             
+------------------------------------------------------------------------------  
+Faculty : 5 Last name : Brown First name : Philip Rank : ASSO                   
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora04/nora04;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p7q2 AS
+  2     CURSOR consultant_curr IS
+  3        SELECT c_id
+  4        FROM consultant;
+  5       v_consultant_row consultant_curr%ROWTYPE;
+  6  
+  7     CURSOR consultant_skill_curr(p_c_id NUMBER)IS
+  8        SELECT skill_id, certification
+  9        FROM consultant_skill
+ 10        WHERE c_id = p_c_id;
+ 11        v_consultant_skill_row consultant_skill_curr%ROWTYPE;
+ 12  
+ 13         v_skill_description skill.skill_description%TYPE;
+ 14  
+ 15  BEGIN
+ 16        OPEN consultant_curr;
+ 17        FETCH consultant_curr INTO v_consultant_row;
+ 18        WHILE consultant_curr%FOUND  LOOP
+ 19            DBMS_OUTPUT.PUT_LINE('--------------------------');
+ 20            DBMS_OUTPUT.PUT_LINE('Consultant number : ' || v_consultant_row.c_id);
+ 21  
+ 22            OPEN consultant_skill_curr(v_consultant_row.c_id);
+ 23            FETCH consultant_skill_curr INTO v_consultant_skill_row ;
+ 24            WHILE consultant_skill_curr%FOUND LOOP
+ 25                  SELECT skill_description INTO v_skill_description FROM skill WHERE skill_id =  v_consultant_skill_row.skill_id;
+ 26                  DBMS_OUTPUT.PUT_LINE(' Skill description : ' || v_skill_description  || '   Certification : ' || v_consultant_skill_row.certification);
+ 27                  FETCH consultant_skill_curr INTO v_consultant_skill_row;
+ 28            END LOOP;
+ 29            CLOSE consultant_skill_curr;
+ 30            FETCH consultant_curr INTO v_consultant_row;
+ 31        END LOOP;
+ 32       CLOSE consultant_curr;
+ 33  END;
+ 34  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p7q2;
+--------------------------                                                      
+Consultant number : 100                                                         
+Skill description : VB .NET Programming   Certification : Y                     
+Skill description : Java Programming   Certification : N                        
+Skill description : Oracle Developer Programming   Certification : Y            
+--------------------------                                                      
+Consultant number : 101                                                         
+Skill description : Project Management   Certification : Y                      
+Skill description : Web Application Programming   Certification : Y             
+--------------------------                                                      
+Consultant number : 102                                                         
+Skill description : Oracle Database Administration   Certification : Y          
+--------------------------                                                      
+Consultant number : 103                                                         
+Skill description : VB .NET Programming   Certification : N                     
+Skill description : Oracle Developer Programming   Certification : N            
+Skill description : Windows NT/2000 Network Administration   Certification : N  
+Skill description : Windows XP Network Administration   Certification : N       
+--------------------------                                                      
+Consultant number : 104                                                         
+Skill description : Windows NT/2000 Network Administration   Certification : N  
+Skill description : Windows XP Network Administration   Certification : Y       
+--------------------------                                                      
+Consultant number : 105                                                         
+Skill description : COBOL Programming   Certification : N                       
+Skill description : Java Programming   Certification : N                        
+Skill description : Project Management   Certification : Y                      
+
+PL/SQL procedure successfully completed.
+
+SQL> connect c##nora02/nora02;
+Connected.
+SQL> CREATE OR REPLACE PROCEDURE p7q3 AS
+  2  
+  3  BEGIN
+  4         FOR item_index IN (SELECT item_id, item_desc, cat_id FROM item) LOOP
+  5         DBMS_OUTPUT.PUT_LINE('--------------------------');
+  6         DBMS_OUTPUT.PUT_LINE('Item number : ' ||  item_index.item_id  ||  '  Item description :  ' || item_index.item_desc || '  Cat number : ' ||  item_index.cat_id);
+  7             FOR inv_index IN (SELECT inv_id, color, inv_size, inv_price, inv_qoh FROM inventory WHERE item_id = item_index.item_id) LOOP
+  8                DBMS_OUTPUT.PUT_LINE('Inventory number : ' ||  inv_index.inv_id  ||  '  Color :  ' || inv_index.color || ' Size : ' ||  inv_index.inv_size ||  ' Price : ' || inv_index.inv_price || ' Quantity on hand : ' || inv_index.inv_qoh);
+  9             END LOOP;
+ 10       END LOOP;
+ 11    END;
+ 12  /
+
+Procedure created.
+
+SQL> set serveroutput on
+SQL> exec p7q3;
+--------------------------                                                      
+Item number : 1  Item description :  Men's Expedition Parka  Cat number : 3     
+Inventory number : 23  Color :  Spruce Size : S Price : 354.26 Quantity on hand 
+: 114                                                                           
+Inventory number : 24  Color :  Spruce Size : M Price : 354.26 Quantity on hand 
+: 17                                                                            
+Inventory number : 25  Color :  Spruce Size : L Price : 371.97 Quantity on hand 
+: 0                                                                             
+Inventory number : 26  Color :  Spruce Size : XL Price : 371.97 Quantity on hand
+: 12                                                                            
+--------------------------                                                      
+Item number : 2  Item description :  3-Season Tent  Cat number : 4              
+Inventory number : 1  Color :  Sky Blue Size :  Price : 557.33 Quantity on hand 
+: 16                                                                            
+Inventory number : 2  Color :  Light Grey Size :  Price : 460.6 Quantity on hand
+: 12                                                                            
+--------------------------                                                      
+Item number : 3  Item description :  Women's Hiking Shorts  Cat number : 1      
+Inventory number : 3  Color :  Khaki Size : S Price : 53.09 Quantity on hand :  
+150                                                                             
+Inventory number : 4  Color :  Khaki Size : M Price : 53.09 Quantity on hand :  
+147                                                                             
+Inventory number : 5  Color :  Khaki Size : L Price : 53.09 Quantity on hand : 0
+Inventory number : 6  Color :  Navy Size : S Price : 53.09 Quantity on hand :   
+139                                                                             
+Inventory number : 7  Color :  Navy Size : M Price : 53.09 Quantity on hand :   
+137                                                                             
+Inventory number : 8  Color :  Navy Size : L Price : 53.09 Quantity on hand :   
+115                                                                             
+--------------------------                                                      
+Item number : 4  Item description :  Women's Fleece Pullover  Cat number : 1    
+Inventory number : 9  Color :  Eggplant Size : S Price : 106.23 Quantity on hand
+: 135                                                                           
+Inventory number : 10  Color :  Eggplant Size : M Price : 106.23 Quantity on    
+hand : 168                                                                      
+Inventory number : 11  Color :  Eggplant Size : L Price : 106.23 Quantity on    
+hand : 187                                                                      
+Inventory number : 12  Color :  Royal Size : S Price : 106.23 Quantity on hand :
+0                                                                               
+Inventory number : 13  Color :  Royal Size : M Price : 106.23 Quantity on hand :
+124                                                                             
+Inventory number : 14  Color :  Royal Size : L Price : 106.23 Quantity on hand :
+112                                                                             
+--------------------------                                                      
+Item number : 5  Item description :  Children's Beachcomber Sandals  Cat number 
+: 2                                                                             
+Inventory number : 15  Color :  Turquoise Size : 10 Price : 28.34 Quantity on   
+hand : 121                                                                      
+Inventory number : 16  Color :  Turquoise Size : 11 Price : 28.34 Quantity on   
+hand : 111                                                                      
+Inventory number : 17  Color :  Turquoise Size : 12 Price : 28.34 Quantity on   
+hand : 113                                                                      
+Inventory number : 18  Color :  Turquoise Size : 1 Price : 28.34 Quantity on    
+hand : 121                                                                      
+Inventory number : 19  Color :  Bright Pink Size : 10 Price : 28.34 Quantity on 
+hand : 148                                                                      
+Inventory number : 20  Color :  Bright Pink Size : 11 Price : 28.34 Quantity on 
+hand : 137                                                                      
+Inventory number : 21  Color :  Bright Pink Size : 12 Price : 28.34 Quantity on 
+hand : 134                                                                      
+Inventory number : 22  Color :  Bright Pink Size : 1 Price : 28.34 Quantity on  
+hand : 123                                                                      
+--------------------------                                                      
+Item number : 6  Item description :  Boy's Surf Shorts  Cat number : 2          
+Inventory number : 27  Color :  Blue Size : S Price : 28.27 Quantity on hand :  
+50                                                                              
+Inventory number : 28  Color :  Blue Size : M Price : 28.27 Quantity on hand :  
+100                                                                             
+Inventory number : 29  Color :  Blue Size : L Price : 28.27 Quantity on hand :  
+100                                                                             
+--------------------------                                                      
+Item number : 7  Item description :  Girl's Soccer Tee  Cat number : 2          
+Inventory number : 30  Color :  White Size : S Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 31  Color :  White Size : M Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 32  Color :  White Size : L Price : 35.42 Quantity on hand : 
+100                                                                             
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE PROCEDURE p7q4 AS
+  2  value NUMBER := 0;
+  3  BEGIN
+  4         FOR item_index IN (SELECT item_id, item_desc, cat_id FROM item) LOOP
+  5         DBMS_OUTPUT.PUT_LINE('--------------------------');
+  6             FOR inv_index IN (SELECT inv_id, color, inv_size, inv_price, inv_qoh FROM inventory WHERE item_id = item_index.item_id) LOOP
+  7                DBMS_OUTPUT.PUT_LINE('Inventory number : ' ||  inv_index.inv_id  ||  '  Color :  ' || inv_index.color || ' Size : ' ||  inv_index.inv_size ||  ' Price : ' || inv_index.inv_price || ' Quantity on hand : ' || inv_index.inv_qoh);
+  8                value := value + inv_index.inv_price * inv_index.inv_qoh;
+  9             END LOOP;
+ 10         DBMS_OUTPUT.PUT_LINE('Item number : ' ||  item_index.item_id  ||  '  Item description :  ' || item_index.item_desc || '  Item value : ' || value || '  Cat number : ' ||  item_index.cat_id);
+ 11       END LOOP;
+ 12    END;
+ 13  /
+
+Procedure created.
+
+SQL> exec p7q4;
+--------------------------                                                      
+Inventory number : 23  Color :  Spruce Size : S Price : 354.26 Quantity on hand 
+: 114                                                                           
+Inventory number : 24  Color :  Spruce Size : M Price : 354.26 Quantity on hand 
+: 17                                                                            
+Inventory number : 25  Color :  Spruce Size : L Price : 371.97 Quantity on hand 
+: 0                                                                             
+Inventory number : 26  Color :  Spruce Size : XL Price : 371.97 Quantity on hand
+: 12                                                                            
+Item number : 1  Item description :  Men's Expedition Parka  Item value :       
+50871.7  Cat number : 3                                                         
+--------------------------                                                      
+Inventory number : 1  Color :  Sky Blue Size :  Price : 557.33 Quantity on hand 
+: 16                                                                            
+Inventory number : 2  Color :  Light Grey Size :  Price : 460.6 Quantity on hand
+: 12                                                                            
+Item number : 2  Item description :  3-Season Tent  Item value : 65316.18  Cat  
+number : 4                                                                      
+--------------------------                                                      
+Inventory number : 3  Color :  Khaki Size : S Price : 53.09 Quantity on hand :  
+150                                                                             
+Inventory number : 4  Color :  Khaki Size : M Price : 53.09 Quantity on hand :  
+147                                                                             
+Inventory number : 5  Color :  Khaki Size : L Price : 53.09 Quantity on hand : 0
+Inventory number : 6  Color :  Navy Size : S Price : 53.09 Quantity on hand :   
+139                                                                             
+Inventory number : 7  Color :  Navy Size : M Price : 53.09 Quantity on hand :   
+137                                                                             
+Inventory number : 8  Color :  Navy Size : L Price : 53.09 Quantity on hand :   
+115                                                                             
+Item number : 3  Item description :  Women's Hiking Shorts  Item value :        
+101842.1  Cat number : 1                                                        
+--------------------------                                                      
+Inventory number : 9  Color :  Eggplant Size : S Price : 106.23 Quantity on hand
+: 135                                                                           
+Inventory number : 10  Color :  Eggplant Size : M Price : 106.23 Quantity on    
+hand : 168                                                                      
+Inventory number : 11  Color :  Eggplant Size : L Price : 106.23 Quantity on    
+hand : 187                                                                      
+Inventory number : 12  Color :  Royal Size : S Price : 106.23 Quantity on hand :
+0                                                                               
+Inventory number : 13  Color :  Royal Size : M Price : 106.23 Quantity on hand :
+124                                                                             
+Inventory number : 14  Color :  Royal Size : L Price : 106.23 Quantity on hand :
+112                                                                             
+Item number : 4  Item description :  Women's Fleece Pullover  Item value :      
+178965.08  Cat number : 1                                                       
+--------------------------                                                      
+Inventory number : 15  Color :  Turquoise Size : 10 Price : 28.34 Quantity on   
+hand : 121                                                                      
+Inventory number : 16  Color :  Turquoise Size : 11 Price : 28.34 Quantity on   
+hand : 111                                                                      
+Inventory number : 17  Color :  Turquoise Size : 12 Price : 28.34 Quantity on   
+hand : 113                                                                      
+Inventory number : 18  Color :  Turquoise Size : 1 Price : 28.34 Quantity on    
+hand : 121                                                                      
+Inventory number : 19  Color :  Bright Pink Size : 10 Price : 28.34 Quantity on 
+hand : 148                                                                      
+Inventory number : 20  Color :  Bright Pink Size : 11 Price : 28.34 Quantity on 
+hand : 137                                                                      
+Inventory number : 21  Color :  Bright Pink Size : 12 Price : 28.34 Quantity on 
+hand : 134                                                                      
+Inventory number : 22  Color :  Bright Pink Size : 1 Price : 28.34 Quantity on  
+hand : 123                                                                      
+Item number : 5  Item description :  Children's Beachcomber Sandals  Item value 
+: 207531.8  Cat number : 2                                                      
+--------------------------                                                      
+Inventory number : 27  Color :  Blue Size : S Price : 28.27 Quantity on hand :  
+50                                                                              
+Inventory number : 28  Color :  Blue Size : M Price : 28.27 Quantity on hand :  
+100                                                                             
+Inventory number : 29  Color :  Blue Size : L Price : 28.27 Quantity on hand :  
+100                                                                             
+Item number : 6  Item description :  Boy's Surf Shorts  Item value : 214599.3   
+Cat number : 2                                                                  
+--------------------------                                                      
+Inventory number : 30  Color :  White Size : S Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 31  Color :  White Size : M Price : 35.42 Quantity on hand : 
+100                                                                             
+Inventory number : 32  Color :  White Size : L Price : 35.42 Quantity on hand : 
+100                                                                             
+Item number : 7  Item description :  Girl's Soccer Tee  Item value : 225225.3   
+Cat number : 2                                                                  
+
+PL/SQL procedure successfully completed.
+
+SQL> spool
+currently spooling to D:\Lasalle\study\2020Fall\datascript\project_part_7.txt
+SQL> spool off
