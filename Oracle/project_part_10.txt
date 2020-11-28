@@ -1,0 +1,68 @@
+SQL> connect c##nora02/nora02;
+Connected.
+SQL> CREATE TABLE cust_audit (cust_audit_id NUMBER, date_updated DATE, updating_user VARCHAR2(25));
+CREATE TABLE cust_audit (cust_audit_id NUMBER, date_updated DATE, updating_user VARCHAR2(25))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE order_line_row_audit (order_line_row_audit_id NUMBER, o_id NUMBER, inv_id NUMBER, old_ol_quantityNUMBER, date_updated DATE, updating_user VARCHAR2(25));
+CREATE TABLE order_line_row_audit (order_line_row_audit_id NUMBER, o_id NUMBER, inv_id NUMBER, old_ol_quantityNUMBER, date_updated DATE, updating_user VARCHAR2(25))
+                                                                                               *
+ERROR at line 1:
+ORA-02263: need to specify the datatype for this column 
+
+
+SQL> CREATE TABLE order_line_row_audit (order_line_row_audit_id NUMBER, o_id NUMBER, inv_id NUMBER, old_ol_quantity NUMBER, date_updated DATE, updating_user VARCHAR2(25));
+
+Table created.
+
+SQL> CREATE SEQUENCE order_line_row_audit_seq;
+
+Sequence created.
+
+SQL> CREATE OR REPLACE TRIGGRE order_line_row_audit
+  2  AFTER UPDATE ON order_line
+  3  FOR EACH ROW
+  4  BEGIN
+  5      INSERT INTO order_line_row_audit
+  6      VALUES(order_line_row_audit_seq.NEXTVAL,:OLD.o_id, :OLD.inv_id, :OLD.ol_quantity, sysdate, user);
+CREATE OR REPLACE TRIGGRE order_line_row_audit
+                  *
+ERROR at line 1:
+ORA-00922: missing or invalid option 
+
+
+SQL> END;
+SP2-0042: unknown command "END" - rest of line ignored.
+SQL> /
+CREATE OR REPLACE TRIGGRE order_line_row_audit
+                  *
+ERROR at line 1:
+ORA-00922: missing or invalid option 
+
+
+SQL> CREATE OR REPLACE TRIGGER order_line_row_audit
+  2  AFTER UPDATE ON order_line
+  3  FOR EACH ROW
+  4  BEGIN
+  5      INSERT INTO order_line_row_audit
+  6      VALUES(order_line_row_audit_seq.NEXTVAL,:OLD.o_id, :OLD.inv_id, :OLD.ol_quantity, sysdate, user);
+  7  END;
+  8  /
+
+Trigger created.
+
+SQL> SELECT order_line_row_audit_id, o_id, inv_id, old_ol_quantity, TO_CHAR(date_updated,'DD Month YYYY HH:MI:SS'), updating_user
+  2  FROM order_line_row_audit;
+
+ORDER_LINE_ROW_AUDIT_ID       O_ID     INV_ID OLD_OL_QUANTITY                   
+----------------------- ---------- ---------- ---------------                   
+TO_CHAR(DATE_UPDATED,'DDMO UPDATING_USER                                        
+-------------------------- -------------------------                            
+                      1          1          1               5                   
+27 November  2020 10:46:10 C##SCOTT                                             
+                                                                                
+
+SQL> spool off;
